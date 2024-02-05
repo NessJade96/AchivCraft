@@ -1,0 +1,35 @@
+# Wowchat 
+## User Story
+1. AS a user I want to log in to the platform.
+2. AS a logged in user I want to be able to follow characters
+3. AS a logged in user I want to see my followed characters' most recent achievements on the home page.
+4. AS a logged in user I want to be able to unfollow characters. 
+5. As a logged in user I want to be able to logout. 
+
+## pages: 
+Log in page
+Home page (timeline showing recent character achievements)
+Search page (displays table of characters to follow based on search)
+User page (page to show who you follow - option to unfollow/remove)
+
+## API Endpoints
+### Query wow Characters:
+https://develop.battle.net/documentation/world-of-warcraft/profile-apis
+
+Setup my battlenet to use OAuth
+
+### OAuth Access token: 
+In postman select POST query > Authorization > Basic Auth > *Enter client ID and Secret from Bliz*
+In postman select GET query > Authorization > Bearer Token > *Enter the returned Access Token from above request*
+
+## think about what APIs 
+### Endpoints I am defining for the app :)
+1. Get Character/{RealmSlug}/{characterName}/achievements
+    - This endpoint returns a summary of the achievements a character has completed.
+2. Post Follow
+    - Adds a character to the users account 
+    - payload contains: userID, RealmSlug, characterName, region
+3. 
+
+## Database 
+SQL
