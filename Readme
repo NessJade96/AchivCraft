@@ -34,5 +34,13 @@ In postman select GET query > Authorization > Bearer Token > *Enter the returned
 ## Database 
 SQL
 
-## Tools 
-- Bun.sh (javascript runtime)
+## Github example for oAuth stuff: 
+https://github.com/Blizzard/node-signature-generator/tree/master
+
+WOW: Client Credentials Flow
+https://develop.battle.net/documentation/guides/using-oauth/client-credentials-flow?_gl=1*422mxk*_ga*NzQyNzk1MzY0LjE3MDM3NDQwODg.*_ga_VYKNV7C0S3*MTcwNzIwNjA4Ny4zLjEuMTcwNzIwNzgyMi42MC4wLjA.
+
+Getting Started: https://develop.battle.net/documentation/guides/getting-started
+
+##
+To start server cd into server and run in git "node index.js"
