@@ -1,40 +1,50 @@
-# Wowchat 
+# Wowchat
+
 ## User Story
+
 1. AS a user I want to log in to the platform.
 2. AS a logged in user I want to be able to follow characters
 3. AS a logged in user I want to see my followed characters' most recent achievements on the home page.
-4. AS a logged in user I want to be able to unfollow characters. 
-5. As a logged in user I want to be able to logout. 
+4. AS a logged in user I want to be able to unfollow characters.
+5. As a logged in user I want to be able to logout.
 
-## pages: 
+## pages:
+
 Log in page
 Home page (timeline showing recent character achievements)
 Search page (displays table of characters to follow based on search)
 User page (page to show who you follow - option to unfollow/remove)
 
 ## API Endpoints
+
 ### Query wow Characters:
+
 https://develop.battle.net/documentation/world-of-warcraft/profile-apis
 
 Setup my battlenet to use OAuth
 
-### OAuth Access token: 
-In postman select POST query > Authorization > Basic Auth > *Enter client ID and Secret from Bliz*
-In postman select GET query > Authorization > Bearer Token > *Enter the returned Access Token from above request*
+### OAuth Access token:
 
-## think about what APIs 
+In postman select POST query > Authorization > Basic Auth > _Enter client ID and Secret from Bliz_
+In postman select GET query > Authorization > Bearer Token > _Enter the returned Access Token from above request_
+
+## think about what APIs
+
 ### Endpoints I am defining for the app :)
-1. Get Character/{RealmSlug}/{characterName}/achievements
-    - This endpoint returns a summary of the achievements a character has completed.
-2. Post Follow
-    - Adds a character to the users account 
-    - payload contains: userID, RealmSlug, characterName, region
-3. 
 
-## Database 
+1. Get Character/{RealmSlug}/{characterName}/achievements
+   - This endpoint returns a summary of the achievements a character has completed.
+2. Post Follow
+   - Adds a character to the users account
+   - payload contains: userID, RealmSlug, characterName, region
+3.
+
+## Database
+
 SQL
 
-## Github example for oAuth stuff: 
+## Github example for oAuth stuff:
+
 https://github.com/Blizzard/node-signature-generator/tree/master
 
 WOW: Client Credentials Flow
@@ -43,4 +53,11 @@ https://develop.battle.net/documentation/guides/using-oauth/client-credentials-f
 Getting Started: https://develop.battle.net/documentation/guides/getting-started
 
 ##
-To start server cd into server and run in git "node index.js"
+
+To start server cd into server and run in git "node --watch index.js"
+
+## Work on front end
+
+installed Vite
+made some pages with react router
+in the /login page did a call "ping" using a react router Form and action to GET data from the server yo >>

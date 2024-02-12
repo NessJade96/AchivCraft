@@ -3,11 +3,21 @@ const express = require('express')
 const app = express();
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 app.use(cookieParser());
+app.use(cors({
+  origin: 'http://localhost:5173'
+}));
 
 const credentials = btoa(process.env.BNET_OAUTH_CLIENT_ID + ':' + process.env.BNET_OAUTH_CLIENT_SECRET);
 const formData = new URLSearchParams();
 formData.append('grant_type', 'client_credentials');
+
+app.get('/ping', function(req, res){
+  return res.json({
+    ping: true
+  })
+})
 
 app.get('/login', async function(req, res){
   console.log(process.env.BNET_OAUTH_CLIENT_SECRET)
