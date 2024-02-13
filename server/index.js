@@ -3,11 +3,20 @@ const express = require('express')
 const app = express();
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
-const cors = require('cors');
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173'); 
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  if (req.method === 'OPTIONS') {
+      res.sendStatus(200); 
+  } else {
+      next();
+  }
+});
+
 app.use(cookieParser());
-app.use(cors({
-  origin: 'http://localhost:5173'
-}));
 
 const credentials = btoa(process.env.BNET_OAUTH_CLIENT_ID + ':' + process.env.BNET_OAUTH_CLIENT_SECRET);
 const formData = new URLSearchParams();
@@ -25,7 +34,7 @@ app.get('/login', async function(req, res){
   const response = await fetch(`https://us.battle.net/oauth/token`, {
 		method: 'POST',
 		body: formData,
-		headers: { 'Content-Type': 'application/x-www-form-urlencoded','Authorization':'Basic '+ credentials},
+		headers: {'Content-Type': 'application/x-www-form-urlencoded','Authorization':'Basic '+ credentials},
 	})
   .catch(error => console.error('Error:', error));
   if (!response.ok) {
@@ -34,24 +43,7 @@ app.get('/login', async function(req, res){
   }
   const responseJSON = await response.json()
   console.log(responseJSON, responseJSON.access_token)
-  const output = `
-  <html>
-    <body>
-      <h1>Search</h1>
-      <table>
-        <tr>
-          <th>Character</th>
-        </tr>
-        <tr>
-        <td>${responseJSON.access_token}</td>
-        </tr>
-      </table>
-      <br />
-      <a href="/profile/wow/character">toon</a>
-      <a href="/logout">Logout</a>
-    </body>
-  </html>
-`;
+
 const user = {
   id: 123,
   username: 'example_user',
@@ -67,13 +59,13 @@ const user = {
   // const bearerTokenFromJWT = decoded.bearerToken;
   // console.log('Bearer Token from JWT:', bearerTokenFromJWT);
 
-  res.send(output); 
+  res.json({ success: true })
 })
 
 app.get('/profile/wow/character', async function(req, res) {
     // Retrieve the JWT from cookies
     const token = req.cookies.jwt;
-    console.log("token", token)
+    console.log("token", token, req.cookies)
 
     if (!token) {
         return res.status(401).json({ message: 'JWT not found in cookies' });
@@ -95,28 +87,28 @@ app.get('/profile/wow/character', async function(req, res) {
   }
   const characterAchievementsJSON = await characterAchievements.json()
   console.log(characterAchievementsJSON, characterAchievementsJSON.total_points)
-    const output = `
-      <html>
-        <body>
-          <h1>Achievement Points</h1>
-          <table>
-            <tr>
-              <th>Character</th>
-              <th>Points</th>
-              <th>Number of achievements</th>
-            </tr>
-            <tr>
-            <td>${characterAchievementsJSON.character.name}</td>
-            <td>${characterAchievementsJSON.total_points}</td>
-            <td>${characterAchievementsJSON.achievements.length}</td>
-            </tr>
-          </table>
-          <br />
-          <a href="/logout">Logout</a>        
-        </body>
-      </html>
-    `;
-    res.send(output);  
+    // const output = `
+    //   <html>
+    //     <body>
+    //       <h1>Achievement Points</h1>
+    //       <table>
+    //         <tr>
+    //           <th>Character</th>
+    //           <th>Points</th>
+    //           <th>Number of achievements</th>
+    //         </tr>
+    //         <tr>
+    //         <td>${characterAchievementsJSON.character.name}</td>
+    //         <td>${characterAchievementsJSON.total_points}</td>
+    //         <td>${characterAchievementsJSON.achievements.length}</td>
+    //         </tr>
+    //       </table>
+    //       <br />
+    //       <a href="/logout">Logout</a>        
+    //     </body>
+    //   </html>
+    // `;
+    res.json(characterAchievementsJSON)
 });
 
 app.get('/logout', function(req, res) {
