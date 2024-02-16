@@ -1,21 +1,17 @@
 require('dotenv').config();
 const express = require('express')
+require('./src/databaseClient.js')
 const app = express();
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
+const cors = require("cors")
+const corsOptions = {
+  origin: 'http://localhost:5173', // Allow requests from this origin
+  optionsSuccessStatus: 200, // Some legacy browsers (IE11, various SmartTVs) choke on 204,
+  credentials: true
+};
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173'); 
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-  if (req.method === 'OPTIONS') {
-      res.sendStatus(200); 
-  } else {
-      next();
-  }
-});
-
+app.use(cors(corsOptions));
 app.use(cookieParser());
 
 const credentials = btoa(process.env.BNET_OAUTH_CLIENT_ID + ':' + process.env.BNET_OAUTH_CLIENT_SECRET);
@@ -51,14 +47,7 @@ const user = {
 };
   const jwtToken = jwt.sign(user, 'Super_Secret_Password');
   console.log('JWT Token:', jwtToken);
-  res.cookie('jwt', jwtToken, { httpOnly: true, maxAge: 3600000 }); // maxAge is in milliseconds (1 hour in this case)
-
-  // const decoded = jwt.verify(jwtToken, 'Super_Secret_Password');
-  // console.log('Decoded Token:', decoded);
-
-  // const bearerTokenFromJWT = decoded.bearerToken;
-  // console.log('Bearer Token from JWT:', bearerTokenFromJWT);
-
+  res.cookie('jwt', jwtToken, { httpOnly: true, maxAge: 3600000, domain: 'localhost',path: "/" }); // maxAge is in milliseconds (1 hour in this case)
   res.json({ success: true })
 })
 
@@ -74,7 +63,7 @@ app.get('/profile/wow/character', async function(req, res) {
   const decodedToken = jwt.verify(token, 'Super_Secret_Password');
   console.log(decodedToken, "decodedToken")
   
-  const toon = 'teyroth'
+  const toon = 'astraxi'
 
   const characterAchievements = await fetch(`https://us.api.blizzard.com/profile/wow/character/frostmourne/${toon}/achievements?namespace=profile-us&locale=en_US`, {
 		method: 'GET',
@@ -87,28 +76,7 @@ app.get('/profile/wow/character', async function(req, res) {
   }
   const characterAchievementsJSON = await characterAchievements.json()
   console.log(characterAchievementsJSON, characterAchievementsJSON.total_points)
-    // const output = `
-    //   <html>
-    //     <body>
-    //       <h1>Achievement Points</h1>
-    //       <table>
-    //         <tr>
-    //           <th>Character</th>
-    //           <th>Points</th>
-    //           <th>Number of achievements</th>
-    //         </tr>
-    //         <tr>
-    //         <td>${characterAchievementsJSON.character.name}</td>
-    //         <td>${characterAchievementsJSON.total_points}</td>
-    //         <td>${characterAchievementsJSON.achievements.length}</td>
-    //         </tr>
-    //       </table>
-    //       <br />
-    //       <a href="/logout">Logout</a>        
-    //     </body>
-    //   </html>
-    // `;
-    res.json(characterAchievementsJSON)
+  res.json(characterAchievementsJSON)
 });
 
 app.get('/logout', function(req, res) {

@@ -61,3 +61,8 @@ To start server cd into server and run in git "node --watch index.js"
 installed Vite
 made some pages with react router
 in the /login page did a call "ping" using a react router Form and action to GET data from the server yo >>
+
+##
+
+Created a DB on supabase: https://supabase.com/dashboard/project/orxjphplghtiznnhxddv
+Seeded DB online and logged in the user then returned logged in users info to console
