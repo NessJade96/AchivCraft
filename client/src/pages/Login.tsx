@@ -1,4 +1,9 @@
-import { ActionFunctionArgs, Form, useActionData } from "react-router-dom";
+import {
+  ActionFunctionArgs,
+  Form,
+  Link,
+  useActionData,
+} from "react-router-dom";
 
 export function Login() {
   const data = useActionData();
@@ -26,6 +31,7 @@ export function Login() {
           Character Achievements
         </button>
       </Form>
+      <Link to="/signup">Create Account?</Link>
       {JSON.stringify(data)}
     </>
   );
