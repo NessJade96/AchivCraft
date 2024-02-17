@@ -2,38 +2,54 @@ import { ActionFunctionArgs, Form, useActionData } from "react-router-dom";
 
 export function Login() {
   const data = useActionData();
-  console.log("🚀 ~ Login ~ data:", data);
-  const totalPoints = data?.total_points;
   return (
     <>
       <Form method="POST">
-        <input type="text" name="userName" />
+        <input
+          required
+          type="email"
+          name="email"
+          defaultValue="vkellyy@gmail.com"
+        />
+        <input
+          required
+          type="password"
+          name="password"
+          defaultValue="V_HHicBASx5_P2M"
+        />
         <button name="intent" value="login">
           Login
         </button>
-        <p>{data?.ping ? "true" : "false"}</p>
-        <p>{data?.success ? "true" : "false"}</p>
       </Form>
       <Form method="POST">
         <button name="intent" value="getCharacterAchievements">
           Character Achievements
         </button>
-        <p>{data ? `Total points: ${totalPoints}` : ""}</p>
       </Form>
+      {JSON.stringify(data)}
     </>
   );
 }
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
-  const intentFormData = formData.get("intent");
-  const cookie = request.headers.getSetCookie();
-  console.log("cookie", cookie);
-  if (intentFormData === "login") {
+  const intent = formData.get("intent");
+  const email = formData.get("email");
+  const password = formData.get("password");
+
+  if (intent === "login") {
     return fetch("http://localhost:3000/login", {
+      method: "POST",
       credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
     });
-  } else if (intentFormData === "getCharacterAchievements") {
+  } else if (intent === "getCharacterAchievements") {
     return fetch("http://localhost:3000/profile/wow/character", {
       credentials: "include",
     });
