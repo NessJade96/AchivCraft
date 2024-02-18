@@ -70,3 +70,9 @@ Seeded DB online and logged in the user then returned logged in users info to co
 ##
 
 Created the ability to enter details on login page, and create new users via the signup page.
+
+## to do next time
+
+- set up DB (think relationships between users and followers)
+- Create follow button for Search page for the character listed.
+- Working in the Search.tsx on the follow Action/POST request.

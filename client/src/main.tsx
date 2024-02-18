@@ -6,6 +6,11 @@ import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Login, action as loginAction } from "./pages/Login.tsx";
 import { Signup, action as signupAction } from "./pages/Signup.tsx";
+import {
+  Search,
+  loader as searchLoader,
+  action as searchAction,
+} from "./pages/Search.tsx";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +31,12 @@ const router = createBrowserRouter([
     path: "/Signup",
     element: <Signup />,
     action: signupAction,
+  },
+  {
+    path: "/Search",
+    element: <Search />,
+    loader: searchLoader,
+    action: searchAction,
   },
 ]);
 

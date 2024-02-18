@@ -31,6 +31,44 @@ app.get("/ping", function (req, res) {
 	});
 });
 
+app.get("/search", async function (req, res) {
+	const { realmSlug, characterName } = req.query;
+	console.log("🚀 ~ characterName:", characterName);
+	console.log("🚀 ~ realmSlug:", realmSlug);
+
+	// Retrieve the JWT from cookies
+	const signedJwt = req.cookies.jwt;
+	if (!signedJwt) {
+		res.status(401).json({ message: "JWT not found" });
+		return;
+	}
+	// Verify the JWT
+	const decodedToken = jwt.verify(signedJwt, "Super_Secret_Password");
+
+	if (!decodedToken.access_token) {
+		res.status(401).json({ message: "Invalid access token" });
+		return;
+	}
+
+	const characterResponse = await fetch(
+		`https://us.api.blizzard.com/profile/wow/character/${realmSlug}/${characterName}?namespace=profile-us&locale=en_US`,
+		{
+			method: "GET",
+			headers: { Authorization: "Bearer " + decodedToken.access_token },
+		}
+	).catch((error) => {
+		console.error("Error:", error);
+		return error;
+	});
+
+	if (!characterResponse.ok) {
+		throw new Error("Network response was not ok");
+	}
+	const characterJSON = await characterResponse.json();
+	console.log("🚀 ~ characterJSON:", characterJSON);
+	res.json(characterJSON);
+});
+
 app.post("/login", async function (req, res) {
 	const { email, password } = req.body;
 
