@@ -66,3 +66,7 @@ in the /login page did a call "ping" using a react router Form and action to GET
 
 Created a DB on supabase: https://supabase.com/dashboard/project/orxjphplghtiznnhxddv
 Seeded DB online and logged in the user then returned logged in users info to console
+
+##
+
+Created the ability to enter details on login page, and create new users via the signup page.
