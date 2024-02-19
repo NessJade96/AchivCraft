@@ -1,14 +1,15 @@
 import {
-  ActionFunctionArgs,
   Form,
   Link,
   LoaderFunctionArgs,
   redirect,
   useLoaderData,
+  useFetcher,
 } from "react-router-dom";
 
 export function Search() {
-  const data = useLoaderData();
+  const data: any = useLoaderData();
+  const fetcher = useFetcher();
   return (
     <>
       <Form method="GET">
@@ -34,17 +35,30 @@ export function Search() {
         </button>
       </Form>
       {data ? (
-        <ul>
-          Search Results:
-          <li>Name: {data.name}</li>
-          <li>Faction: {data.faction.name}</li>
-          <li>Race: {data.race.name}</li>
-          <li>Class: {data.character_class.name}</li>
-          <li>Level: {data.level}</li>
-          <button name="intent" value="follow">
-            Follow {data.name}
-          </button>
-        </ul>
+        <>
+          <h3>Search Results:</h3>
+          <ul>
+            <li>Realm: {data.realmSlug}</li>
+            <li>Name: {data.name}</li>
+            <li>Faction: {data.faction}</li>
+            <li>Race: {data.race}</li>
+            <li>Class: {data.class}</li>
+            <li>Achievement Points: {data.achievementPoints}</li>
+          </ul>
+          <fetcher.Form method="POST" action="/follow">
+            <button>Follow {data.name}</button>
+            <input name="name" value={data.name} type="hidden" />
+            <input name="faction" value={data.faction} type="hidden" />
+            <input name="race" value={data.race} type="hidden" />
+            <input name="class" value={data.class} type="hidden" />
+            <input
+              name="achievementPoints"
+              value={data.achievementPoints}
+              type="hidden"
+            />
+            <input name="realmSlug" value={data.realmSlug} type="hidden" />
+          </fetcher.Form>
+        </>
       ) : null}
       <Link to="/home">Back to home</Link>
       <pre style={{ textAlign: "left" }}>
@@ -58,7 +72,6 @@ export function Search() {
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
-  console.log("🚀 ~ loader ~ url:", url);
   const params = new URLSearchParams(url.search);
   const hasRequiredKeys =
     params.has("realmSlug") && params.has("characterName");
@@ -77,25 +90,3 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   }
   return null;
 };
-
-// What data do we need to send to the DB for this character (think what formdata we need to have.)
-export async function action({ request }: ActionFunctionArgs) {
-  const formData = await request.formData();
-  //   const email = formData.get("email");
-  //   const password = formData.get("password");
-  const intent = formData.get("intent");
-  if (intent === "follow") {
-    // fetch("http://localhost:3000/signup", {
-    //   method: "POST",
-    //   credentials: "include",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     email,
-    //     password,
-    //   }),
-    // });
-  }
-  return null;
-}

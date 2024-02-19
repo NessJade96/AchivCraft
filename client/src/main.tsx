@@ -2,15 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./pages/App.tsx";
 import { Home, loader as homeLoader } from "./pages/Home.tsx";
+import { action as followAction } from "./pages/Follow.tsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Login, action as loginAction } from "./pages/Login.tsx";
 import { Signup, action as signupAction } from "./pages/Signup.tsx";
-import {
-  Search,
-  loader as searchLoader,
-  action as searchAction,
-} from "./pages/Search.tsx";
+import { Search, loader as searchLoader } from "./pages/Search.tsx";
 
 const router = createBrowserRouter([
   {
@@ -28,15 +25,18 @@ const router = createBrowserRouter([
     action: loginAction,
   },
   {
-    path: "/Signup",
+    path: "/signup",
     element: <Signup />,
     action: signupAction,
   },
   {
-    path: "/Search",
+    path: "/search",
     element: <Search />,
     loader: searchLoader,
-    action: searchAction,
+  },
+  {
+    path: "/follow",
+    action: followAction,
   },
 ]);
 

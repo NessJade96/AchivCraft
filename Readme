@@ -76,3 +76,49 @@ Created the ability to enter details on login page, and create new users via the
 - set up DB (think relationships between users and followers)
 - Create follow button for Search page for the character listed.
 - Working in the Search.tsx on the follow Action/POST request.
+
+### DB structure:
+
+Created in supabase's online webapp to store db in the cloud
+4 tables in supabase:
+User, Character, Follow, Achievement
+
+### User comlumns:
+
+Email:
+Provider: (eg. confirmed via email, phone, etc)
+created_at:
+last sign in: date
+user UID: eg. 359a0a6f-903f-4253-81a2-6d671a5836da
+
+### Character columns:
+
+id:
+Created_at:
+updated_at:
+Name:
+Faction:
+Race:
+Class:
+Achievement_Points:
+Total_achievments: (number of achievements completed)
+
+### Follow columns:
+
+id:
+Created_at:
+updated_at:
+user_id: (references user UID column of user table)
+character_id: (references id of column in character table)
+Foreign key - user and character tables
+
+### Achievement columns:
+
+id:
+created_at:
+name:
+points:
+wow_api_id:
+completed_timestamp: (in wow api its as unix epoch - will need to convert to store in db)
+character_id:(references id of column in character table)
+Foreign key - character table

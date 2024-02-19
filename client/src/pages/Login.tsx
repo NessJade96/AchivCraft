@@ -2,6 +2,7 @@ import {
   ActionFunctionArgs,
   Form,
   Link,
+  redirect,
   useActionData,
 } from "react-router-dom";
 
@@ -32,7 +33,9 @@ export function Login() {
         </button>
       </Form>
       <Link to="/signup">Create Account?</Link>
-      {JSON.stringify(data)}
+      {
+        //JSON.stringify(data)
+      }
     </>
   );
 }
@@ -44,7 +47,7 @@ export async function action({ request }: ActionFunctionArgs) {
   const password = formData.get("password");
 
   if (intent === "login") {
-    return fetch("http://localhost:3000/login", {
+    const loginResponse = await fetch("http://localhost:3000/login", {
       method: "POST",
       credentials: "include",
       headers: {
@@ -55,8 +58,13 @@ export async function action({ request }: ActionFunctionArgs) {
         password,
       }),
     });
+    console.log("🚀 ~ action ~ loginResponse:", loginResponse);
+    if (loginResponse.ok) {
+      return redirect("/home");
+    }
+    return loginResponse;
   } else if (intent === "getCharacterAchievements") {
-    return fetch("http://localhost:3000/profile/wow/character", {
+    return fetch("http://localhost:3000/profile/wow/character/achievement", {
       credentials: "include",
     });
   }

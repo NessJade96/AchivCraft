@@ -1,4 +1,4 @@
-import { redirect } from "react-router-dom";
+import { Link, redirect, useLoaderData } from "react-router-dom";
 
 type HomeProps = {
   name: string;
@@ -7,24 +7,26 @@ type HomeProps = {
 };
 
 export function Home({ name, last, age }: HomeProps) {
+  const data: any = useLoaderData();
   return (
     <>
       <h1>
         Hello {name} {last}
       </h1>
       <p>age: {age}</p>
+      <Link to="/search">Search new characters to follow</Link>
+      {JSON.stringify(data)}
     </>
   );
 }
 
 export const loader = async () => {
   const characterResponse = await fetch(
-    "http://localhost:3000/profile/wow/character",
+    "http://localhost:3000/profile/wow/character/achievement",
     {
       credentials: "include",
     }
   );
-
   if (!characterResponse.ok) {
     return redirect("/login");
   }
