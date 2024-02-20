@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@supabase/ssr": "^0.1.0",
     "@supabase/supabase-js": "^2.39.6",
     "body-parser": "^1.20.2",
     "cookie-parser": "^1.4.6",

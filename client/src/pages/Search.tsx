@@ -46,7 +46,9 @@ export function Search() {
             <li>Achievement Points: {data.achievementPoints}</li>
           </ul>
           <fetcher.Form method="POST" action="/follow">
-            <button>Follow {data.name}</button>
+            <button>
+              {data.isFollowing ? "Follow" : "Unfollow"} {data.name}
+            </button>
             <input name="name" value={data.name} type="hidden" />
             <input name="faction" value={data.faction} type="hidden" />
             <input name="race" value={data.race} type="hidden" />
@@ -86,6 +88,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     if (!searchResponse.ok) {
       return redirect("/login");
     }
+    console.log(searchResponse);
     return searchResponse;
   }
   return null;

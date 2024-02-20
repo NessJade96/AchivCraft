@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const { supabaseClient } = require("./src/databaseClient.js");
+const { supabaseClient, createClient } = require("./src/databaseClient.js");
 
 app.use(cookieParser());
 app.use(
@@ -36,6 +36,69 @@ app.get("/search", async function (req, res) {
 	console.log("🚀 ~ characterName:", characterName);
 	console.log("🚀 ~ realmSlug:", realmSlug);
 
+	// check DB for character
+	const supabase = createClient({ req, res });
+
+	// Turns the first letter of character name to caps as it is in the database
+	const capitalizedCharacterName =
+		characterName.charAt(0).toUpperCase() + characterName.slice(1);
+
+	const { data: checkCharacterData, error: checkCharacterError } =
+		await supabase
+			.from("character")
+			.select("*")
+			.eq("realm_slug", realmSlug)
+			.eq("name", capitalizedCharacterName);
+	console.log("🚀 ~ checkCharacterError:", checkCharacterError);
+	console.log("🚀 ~ checkCharacterData:", checkCharacterData);
+
+	let characterDataResponse = checkCharacterData[0];
+	console.log("🚀 ~ characterDataResponse:", characterDataResponse);
+
+	// if character is found return character data
+	//(and return info on if the user is currently follow character)
+	// add to object --> isFollowing: false
+
+	if (characterDataResponse) {
+		const {
+			data: { user },
+			error: userError,
+		} = await supabase.auth.getUser();
+
+		if (userError) {
+			console.log("🚀 ~ userError:", userError);
+			return res.sendStatus(400);
+		}
+
+		const { data: checkFollowing, error: checkFollowingError } =
+			await supabase
+				.from("follow")
+				.select("*")
+				.eq("user_id", user.id)
+				.eq("character_id", characterDataResponse.id);
+		console.log("🚀 ~ checkFollowing:", checkFollowing);
+		console.log("🚀 ~ checkFollowingError:", checkFollowingError);
+
+		const characterOutput = {
+			name: characterDataResponse.name,
+			faction: characterDataResponse.faction,
+			race: characterDataResponse.race,
+			class: characterDataResponse.class,
+			achievementPoints: characterDataResponse.achievement_points,
+			realmSlug: characterDataResponse.realm_slug,
+			isFollowing: checkFollowing.length > 0,
+		};
+		console.log("🚀 ~ characterOutput:", characterOutput);
+
+		if (characterOutput.isFollowing) {
+			console.log("you are following this character");
+		} else {
+			console.log("you are NOT following this character");
+		}
+		res.json(characterOutput);
+		return;
+	}
+
 	// Retrieve the JWT from cookies
 	const signedJwt = req.cookies.jwt;
 	if (!signedJwt) {
@@ -49,13 +112,14 @@ app.get("/search", async function (req, res) {
 		res.status(401).json({ message: "Invalid access token" });
 		return;
 	}
-
 	//GETs the characters info from WOW api
 	const characterResponse = await fetch(
 		`https://us.api.blizzard.com/profile/wow/character/${realmSlug}/${characterName}?namespace=profile-us&locale=en_US`,
 		{
 			method: "GET",
-			headers: { Authorization: "Bearer " + decodedToken.access_token },
+			headers: {
+				Authorization: "Bearer " + decodedToken.access_token,
+			},
 		}
 	).catch((error) => {
 		console.error("Error:", error);
@@ -73,7 +137,11 @@ app.get("/search", async function (req, res) {
 		class: characterJSON.character_class.name,
 		achievementPoints: characterJSON.achievement_points,
 		realmSlug: characterJSON.realm.slug,
+		isFollowing: false,
 	};
+	console.log(
+		"This character is not in the DB and the user is NOT following this character"
+	);
 	res.json(character);
 });
 
@@ -85,9 +153,12 @@ app.post("/login", async function (req, res) {
 		return;
 	}
 
+	const supabase = createClient({ req, res });
+
 	const {
-		data: { user },
-	} = await supabaseClient.auth.signInWithPassword({
+		data: { user, ...rest },
+		error,
+	} = await supabase.auth.signInWithPassword({
 		email,
 		password,
 	});
@@ -154,6 +225,8 @@ app.post("/signup", async function (req, res) {
 });
 
 app.post("/follow", async function (req, res) {
+	const supabase = createClient({ req, res });
+
 	const {
 		characterName,
 		characterfaction,
@@ -175,31 +248,59 @@ app.post("/follow", async function (req, res) {
 		return;
 	}
 
-	const { data, error } = await supabaseClient
-		.from("character")
-		.upsert(
-			{
+	const { data: checkCharacterData, error: checkCharacterError } =
+		await supabase
+			.from("character")
+			.select("id, name, realm_slug")
+			.eq("name", characterName)
+			.eq("realm_slug", characterRealmSlug);
+
+	let characterId = checkCharacterData[0]?.id;
+
+	if (!characterId) {
+		const { data: characterData, error: characterError } = await supabase
+			.from("character")
+			.insert({
 				name: characterName,
 				faction: characterfaction,
 				race: characterRace,
 				class: characterClass,
 				achievement_points: characterAchievementPoints,
 				realm_slug: characterRealmSlug,
-			},
-			{ onConflict: "name, realm_slug" }
-		)
-		.select("id");
-	console.log("🚀 ~ data:", data);
-	console.log("🚀 ~ error:", error);
+			})
+			.select("id, name, realm_slug");
 
-	if (error) {
+		if (characterError) {
+			return res.sendStatus(400);
+		}
+		characterId = characterData[0].id;
+	}
+
+	const {
+		data: { user },
+		error: userError,
+	} = await supabase.auth.getUser();
+
+	if (userError) {
+		console.log("🚀 ~ userError:", userError);
 		return res.sendStatus(400);
 	}
 
-	// now that we have added the character to the DB (if not already in there)
-	// Create insert to the follow table
-	// send reponse back
-	// update "follow" button to say "following"
+	const newFollow = {
+		user_id: user.id,
+		character_id: characterId,
+	};
+
+	const { error: followError } = await supabase
+		.from("follow")
+		.insert(newFollow)
+		.select();
+
+	if (followError) {
+		return res.sendStatus(400);
+	}
+
+	res.json({ success: true });
 });
 
 app.get("/profile/wow/character/achievement", async function (req, res) {
@@ -222,10 +323,6 @@ app.get("/profile/wow/character/achievement", async function (req, res) {
 		req,
 		res,
 		decodedToken
-	);
-	console.log(
-		"🚀 ~ characterAchievementsReponse:",
-		characterAchievementsResponse
 	);
 	const characterAchievementsJSON =
 		await characterAchievementsResponse.json();
@@ -261,13 +358,19 @@ const getCharacterAchievementsReponse = async function (
 	res,
 	decodedToken
 ) {
-	const realmSlug = "frostmourne";
-	const characterName = "astraxi";
+	//const realmSlug = "frostmourne";
+	//const characterName = "astraxi";
 
-	//const { realmSlug, characterName } = req.query;
+	const { realmSlug, characterName } = req.query;
 	const decodedJWTToken = decodedToken;
-	console.log("🚀 ~ characterName:", characterName);
-	console.log("🚀 ~ realmSlug:", realmSlug);
+	console.log(
+		"🚀 310: getCharacterAchievementsReponse() ~ characterName:",
+		characterName
+	);
+	console.log(
+		"🚀 311: getCharacterAchievementsReponse()~ realmSlug:",
+		realmSlug
+	);
 	const characterAchievementsResponse = await fetch(
 		`https://us.api.blizzard.com/profile/wow/character/${realmSlug}/${characterName}/achievements?namespace=profile-us&locale=en_US`,
 		{
