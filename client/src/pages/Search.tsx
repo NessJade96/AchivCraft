@@ -47,7 +47,7 @@ export function Search() {
           </ul>
           <fetcher.Form method="POST" action="/follow">
             <button>
-              {data.isFollowing ? "Follow" : "Unfollow"} {data.name}
+              {data.isFollowing ? "Unfollow" : "Follow"} {data.name}
             </button>
             <input name="name" value={data.name} type="hidden" />
             <input name="faction" value={data.faction} type="hidden" />

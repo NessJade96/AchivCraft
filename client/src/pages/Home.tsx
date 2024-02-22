@@ -20,15 +20,15 @@ export function Home({ name, last, age }: HomeProps) {
   );
 }
 
-//export const loader = async () => {
-// const characterResponse = await fetch(
-//   "http://localhost:3000/profile/wow/character/achievement",
-//   {
-//     credentials: "include",
-//   }
-// );
-// if (!characterResponse.ok) {
-//   return redirect("/login");
-// }
-// return characterResponse;
-//};
+export const loader = async () => {
+  const characterResponse = await fetch(
+    "http://localhost:3000/character/achievement",
+    {
+      credentials: "include",
+    }
+  );
+  if (!characterResponse.ok) {
+    return redirect("/login");
+  }
+  return characterResponse;
+};
