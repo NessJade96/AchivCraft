@@ -47,6 +47,7 @@ router.get("/", async function (req, res) {
 			return res.sendStatus(400);
 		}
 		const characterOutput = {
+			id: characterDataResponse.id,
 			name: characterDataResponse.name,
 			faction: characterDataResponse.faction,
 			race: characterDataResponse.race,
@@ -54,6 +55,7 @@ router.get("/", async function (req, res) {
 			achievementPoints: characterDataResponse.achievement_points,
 			realmSlug: characterDataResponse.realm_slug,
 			isFollowing: checkFollowing.length > 0,
+			followId: checkFollowing[0]?.id,
 		};
 
 		if (characterOutput.isFollowing) {
@@ -98,6 +100,7 @@ router.get("/", async function (req, res) {
 	}
 	const characterJSON = await characterResponse.json();
 	const character = {
+		id: characterJSON.id,
 		name: characterJSON.name,
 		faction: characterJSON.faction.name,
 		race: characterJSON.race.name,

@@ -29,7 +29,6 @@ router.get("/achievement", async function (req, res) {
 	const characterAchievementsJSON =
 		await characterAchievementsResponse.json();
 	res.json(characterAchievementsJSON);
-	return characterAchievementsResponse;
 });
 
 module.exports = { router };

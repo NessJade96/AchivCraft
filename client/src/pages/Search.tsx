@@ -45,28 +45,32 @@ export function Search() {
             <li>Class: {data.class}</li>
             <li>Achievement Points: {data.achievementPoints}</li>
           </ul>
-          <fetcher.Form method="POST" action="/follow">
-            <button>
-              {data.isFollowing ? "Unfollow" : "Follow"} {data.name}
-            </button>
-            <input name="name" value={data.name} type="hidden" />
-            <input name="faction" value={data.faction} type="hidden" />
-            <input name="race" value={data.race} type="hidden" />
-            <input name="class" value={data.class} type="hidden" />
-            <input
-              name="achievementPoints"
-              value={data.achievementPoints}
-              type="hidden"
-            />
-            <input name="realmSlug" value={data.realmSlug} type="hidden" />
-          </fetcher.Form>
+          {data.isFollowing ? (
+            <fetcher.Form method="POST" action="/unfollow">
+              <button>Unfollow {data.name}</button>
+              <input name="followId" value={data.followId} type="hidden" />
+            </fetcher.Form>
+          ) : (
+            <fetcher.Form method="POST" action="/follow">
+              <button>Follow {data.name}</button>
+              <input name="id" value={data.id} type="hidden" />
+              <input name="name" value={data.name} type="hidden" />
+              <input name="faction" value={data.faction} type="hidden" />
+              <input name="race" value={data.race} type="hidden" />
+              <input name="class" value={data.class} type="hidden" />
+              <input
+                name="achievementPoints"
+                value={data.achievementPoints}
+                type="hidden"
+              />
+              <input name="realmSlug" value={data.realmSlug} type="hidden" />
+            </fetcher.Form>
+          )}
         </>
       ) : null}
       <Link to="/home">Back to home</Link>
       <pre style={{ textAlign: "left" }}>
-        {
-          //{JSON.stringify(data, undefined, 2)}
-        }
+        {JSON.stringify(data, undefined, 2)}
       </pre>
     </>
   );

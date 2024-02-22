@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./pages/App.tsx";
 import { Home, loader as homeLoader } from "./pages/Home.tsx";
 import { action as followAction } from "./pages/Follow.tsx";
+import { action as unfollowAction } from "./pages/Unfollow.tsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Login, action as loginAction } from "./pages/Login.tsx";
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
   {
     path: "/follow",
     action: followAction,
+  },
+  {
+    path: "/unfollow",
+    action: unfollowAction,
   },
 ]);
 

@@ -10,6 +10,7 @@ const { router: loginRouter } = require("./src/routers/login.js");
 const { router: logoutRouter } = require("./src/routers/logout.js");
 const { router: searchRouter } = require("./src/routers/search.js");
 const { router: signupRouter } = require("./src/routers/signup.js");
+const { router: unfollowRouter } = require("./src/routers/unfollow.js");
 
 app.use(cookieParser());
 app.use(
@@ -27,6 +28,7 @@ app.use("/login", loginRouter);
 app.use("/logout", logoutRouter);
 app.use("/search", searchRouter);
 app.use("/signup", signupRouter);
+app.use("/unfollow", unfollowRouter);
 
 app.use(function (err, req, res) {
 	console.error(err);

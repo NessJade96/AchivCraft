@@ -72,16 +72,19 @@ router.post("/", async function (req, res) {
 		character_id: characterId,
 	};
 
-	const { error: followError } = await supabase
+	const { data: followData, error: followError } = await supabase
 		.from("follow")
 		.insert(newFollow)
-		.select();
+		.select("id");
+
+	const followID = followData[0].id;
+	console.log("🚀 ~ followID:", followID);
 
 	if (followError) {
 		return res.sendStatus(400);
 	}
 
-	res.json({ success: true });
+	res.json({ success: true, followID });
 });
 
 module.exports = { router };
