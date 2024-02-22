@@ -1,4 +1,9 @@
-import { Link, redirect, useLoaderData } from "react-router-dom";
+import {
+  Link,
+  redirect,
+  useFetcher,
+  useLoaderData,
+} from "react-router-dom";
 
 type HomeProps = {
   name: string;
@@ -8,6 +13,7 @@ type HomeProps = {
 
 export function Home({ name, last, age }: HomeProps) {
   const data: any = useLoaderData();
+  const fetcher = useFetcher();
   return (
     <>
       <h1>
@@ -16,6 +22,9 @@ export function Home({ name, last, age }: HomeProps) {
       <p>age: {age}</p>
       <Link to="/search">Search new characters to follow</Link>
       {JSON.stringify(data)}
+      <fetcher.Form method="POST" action="/logout">
+        <button>Logout</button>
+      </fetcher.Form>
     </>
   );
 }

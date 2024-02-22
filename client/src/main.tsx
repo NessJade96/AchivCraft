@@ -7,6 +7,7 @@ import { action as unfollowAction } from "./pages/Unfollow.tsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Login, action as loginAction } from "./pages/Login.tsx";
+import { Logout, action as logoutAction } from "./pages/Logout.tsx";
 import { Signup, action as signupAction } from "./pages/Signup.tsx";
 import { Search, loader as searchLoader } from "./pages/Search.tsx";
 
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
   {
     path: "/unfollow",
     action: unfollowAction,
+  },
+  {
+    path: "/logout",
+    action: logoutAction,
   },
 ]);
 

@@ -32,7 +32,7 @@ app.use("/unfollow", unfollowRouter);
 
 app.use(function (err, req, res) {
 	console.error(err);
-	res.send("<h1>Internal Server Error</h1>");
+	return;
 });
 
 const server = app.listen(3000, function () {
