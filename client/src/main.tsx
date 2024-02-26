@@ -6,8 +6,10 @@ import { action as followAction } from "./pages/Follow.tsx";
 import { action as unfollowAction } from "./pages/Unfollow.tsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { action as achievementAction } from "./pages/Achievement.tsx";
+
 import { Login, action as loginAction } from "./pages/Login.tsx";
-import { Logout, action as logoutAction } from "./pages/Logout.tsx";
+import { action as logoutAction } from "./pages/Logout.tsx";
 import { Signup, action as signupAction } from "./pages/Signup.tsx";
 import { Search, loader as searchLoader } from "./pages/Search.tsx";
 
@@ -18,8 +20,8 @@ const router = createBrowserRouter([
   },
   {
     path: "/home",
-    element: <Home name="Adam" last="Bloom" age={27} />,
-    //loader: homeLoader,
+    element: <Home />,
+    loader: homeLoader,
   },
   {
     path: "/login",
@@ -47,6 +49,10 @@ const router = createBrowserRouter([
   {
     path: "/logout",
     action: logoutAction,
+  },
+  {
+    path: "/achievement",
+    action: achievementAction,
   },
 ]);
 

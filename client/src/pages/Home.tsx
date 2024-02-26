@@ -1,27 +1,25 @@
 import {
   Link,
+  LoaderFunctionArgs,
   redirect,
   useFetcher,
   useLoaderData,
 } from "react-router-dom";
 
-type HomeProps = {
-  name: string;
-  last: string;
-  age: number;
-};
-
-export function Home({ name, last, age }: HomeProps) {
+export function Home() {
   const data: any = useLoaderData();
   const fetcher = useFetcher();
   return (
     <>
-      <h1>
-        Hello {name} {last}
-      </h1>
-      <p>age: {age}</p>
+      <h1>Recent Achievements</h1>
+      <fetcher.Form method="POST" action="/achievement">
+        <button>Load Achievements</button>
+      </fetcher.Form>
       <Link to="/search">Search new characters to follow</Link>
-      {JSON.stringify(data)}
+      <p>{data.total_points}</p>
+      <p>{JSON.stringify(data.achievements[0])}</p>
+
+      {JSON.stringify(data.total_points)}
       <fetcher.Form method="POST" action="/logout">
         <button>Logout</button>
       </fetcher.Form>
@@ -39,5 +37,6 @@ export const loader = async () => {
   if (!characterResponse.ok) {
     return redirect("/login");
   }
+
   return characterResponse;
 };

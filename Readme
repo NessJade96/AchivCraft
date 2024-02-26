@@ -117,19 +117,19 @@ Foreign key - user and character tables
 id:
 created_at:
 name:
-points:
 wow_api_id:
 completed_timestamp: (in wow api its as unix epoch - will need to convert to store in db)
 character_id:(references id of column in character table)
 Foreign key - character table
 
 ##
+
 - funcationality to save character acheivements to the db
-- error handling for queries to check if the user is logged in 
+- error handling for queries to check if the user is logged in
 - Then render characters achievements to the home page / timeline
 - make a landing page?
 - start looking into design (figma)
 
-Defects to fix: 
-- It doesn't log you in the first time when server starts, errors and works the second time. 
+Defects to fix:
 
+- It doesn't log you in the first time when server starts, errors and works the second time.

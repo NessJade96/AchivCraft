@@ -4,6 +4,7 @@ const app = express();
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const { router: achievementRouter } = require("./src/routers/achievement.js");
 const { router: characterRouter } = require("./src/routers/character.js");
 const { router: followRouter } = require("./src/routers/follow.js");
 const { router: loginRouter } = require("./src/routers/login.js");
@@ -22,6 +23,7 @@ app.use(
 );
 app.use(bodyParser.json());
 
+app.use("/achievement", achievementRouter);
 app.use("/character", characterRouter);
 app.use("/follow", followRouter);
 app.use("/login", loginRouter);

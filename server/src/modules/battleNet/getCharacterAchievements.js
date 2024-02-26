@@ -1,5 +1,18 @@
-async function getCharacterAchievements(req, res, decodedToken) {
-	const { realmSlug, characterName } = req.query;
+async function getCharacterAchievements(req, res, decodedToken, getCharacter) {
+	console.log("🚀 ~ getCharacterAchievements ~ getCharacter:", getCharacter);
+	let characterName = getCharacter[0].name;
+	const realmSlug = getCharacter[0].realm_slug;
+	console.log(
+		"🚀 ~ getCharacterAchievements ~ characterName:",
+		characterName
+	);
+	characterName =
+		characterName.charAt(0).toLowerCase() + characterName.slice(1);
+	console.log(
+		"🚀 ~ getCharacterAchievements ~ characterName:",
+		characterName
+	);
+
 	const decodedJWTToken = decodedToken;
 	const characterAchievementsResponse = await fetch(
 		`https://us.api.blizzard.com/profile/wow/character/${realmSlug}/${characterName}/achievements?namespace=profile-us&locale=en_US`,
