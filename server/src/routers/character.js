@@ -69,50 +69,11 @@ router.get("/achievement", async function (req, res) {
 	// 	//console.log("🚀 ~ getCharacterError:", getCharacterError);
 	// 	return res.sendStatus(400);
 	// }
-	// Retrieve the JWT from cookies
-	const signedJwt = req.cookies.jwt;
-	if (!signedJwt) {
-		res.status(401).json({ message: "JWT not found" });
-		return;
-	}
 
-	// Verify the JWT
-	const decodedToken = jwt.verify(signedJwt, "Super_Secret_Password");
 
-	if (!decodedToken.access_token) {
-		res.status(401).json({ message: "Invalid access token" });
-		return;
-	}
+	
 
-	// *****
-	// This GetCharAchievements will happen when a user follows a char
-	// *****
-	// const characterAchievementsResponse = await getCharacterAchievements(
-	// 	req,
-	// 	res,
-	// 	decodedToken,
-	// 	testData
-	// );
-	// const characterAchievementsJSON =
-	// 	await characterAchievementsResponse.json();
-	//console.log("🚀 ~ characterAchievementsJSON:", characterAchievementsJSON);
 
-	// now we save the latest achievements to the DB - keys:
-	// name
-	// wow_api_id
-	// completed_timestamp
-	// character_id
-
-	// const achievement = characterAchievementsJSON.achievements[0];
-	// console.log("🚀 ~ achievement:", achievement);
-	// const name = achievement.achievement.name;
-	// console.log("🚀 ~ name:", name);
-	// const wowId = achievement.id;
-	// console.log("🚀 ~ wowId:", wowId);
-	// const completedTimestamp = achievement.completed_timestamp;
-	// console.log("🚀 ~ completedTimestamp:", completedTimestamp);
-	// const date = new Date(achievement.completed_timestamp);
-	// console.log("🚀 ~ date:", date);
 
 	res.json(characterAchievementData);
 });
