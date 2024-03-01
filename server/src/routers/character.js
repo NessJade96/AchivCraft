@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-const {
-	getCharacterAchievements,
-} = require("../modules/battleNet/getCharacterAchievements");
+// const {
+// 	getCharacterAchievements,
+// } = require("../modules/battleNet/getCharacterAchievements");
 const { createClient } = require("../databaseClient.js");
 
 router.get("/achievement", async function (req, res) {
@@ -18,32 +18,57 @@ router.get("/achievement", async function (req, res) {
 		return res.sendStatus(400);
 	}
 
-	const { data: getCharacterIdData, error: getCharacterIdError } =
-		await supabase.from("follow").select("*").eq("user_id", user.id);
+	// const { data: getCharacterIdData, error: getCharacterIdError } =
+	// 	await supabase.from("follow").select("*").eq("user_id", user.id);
 
-	console.log("🚀 ~ getCharacterIdData:", getCharacterIdData);
+	// console.log("🚀 ~ getCharacterIdData:", getCharacterIdData);
 
-	if (getCharacterIdError) {
-		//console.log("🚀 ~ getCharacterError:", getCharacterError);
-		return res.sendStatus(400);
-	}
+	// if (getCharacterIdError) {
+	// 	//console.log("🚀 ~ getCharacterError:", getCharacterError);
+	// 	return res.sendStatus(400);
+	// }
 
-	// now I am thinking I need to do a for loop - for each character_id in the array, do a fetch request from wow API of their achievements
-	// firstly get it working for the first character_id
+	let { data: characterAchievementData, error: characterAchievementError } =
+		await supabase
+			.from("achievement")
+			.select(
+				`
+    character_id, 
+	name, 
+	completed_timestamp,
+	wow_api_id,
+    character!inner (
+		id,
+		name,
+		achievement_points,
+		realm_slug,
+		follow!inner (
+			user_id
+		)
+    )
+	
+  `
+			)
+			.eq("character.follow.user_id", user.id)
+			.order("completed_timestamp", { ascending: false });
 
-	const characterId = getCharacterIdData[0].character_id;
-	console.log("🚀 ~ characterId:", characterId);
+	console.log("🚀 ~ testError:", characterAchievementError);
+	console.log("🚀 ~ characterAchievementData:", characterAchievementData);
 
-	const { data: getCharacter, error: getCharacterError } = await supabase
-		.from("character")
-		.select("*")
-		.eq("id", characterId);
-	console.log("🚀 ~ getCharacter:", getCharacter);
 
-	if (getCharacterError) {
-		//console.log("🚀 ~ getCharacterError:", getCharacterError);
-		return res.sendStatus(400);
-	}
+	//const characterId = getCharacterIdData[0].character_id;
+	//console.log("🚀 ~ characterId:", characterId);
+
+	// const { data: getCharacter, error: getCharacterError } = await supabase
+	// 	.from("character")
+	// 	.select("*")
+	// 	.eq("id", characterId);
+	// console.log("🚀 ~ getCharacter:", getCharacter);
+
+	// if (getCharacterError) {
+	// 	//console.log("🚀 ~ getCharacterError:", getCharacterError);
+	// 	return res.sendStatus(400);
+	// }
 	// Retrieve the JWT from cookies
 	const signedJwt = req.cookies.jwt;
 	if (!signedJwt) {
@@ -59,14 +84,17 @@ router.get("/achievement", async function (req, res) {
 		return;
 	}
 
-	const characterAchievementsResponse = await getCharacterAchievements(
-		req,
-		res,
-		decodedToken,
-		getCharacter
-	);
-	const characterAchievementsJSON =
-		await characterAchievementsResponse.json();
+	// *****
+	// This GetCharAchievements will happen when a user follows a char
+	// *****
+	// const characterAchievementsResponse = await getCharacterAchievements(
+	// 	req,
+	// 	res,
+	// 	decodedToken,
+	// 	testData
+	// );
+	// const characterAchievementsJSON =
+	// 	await characterAchievementsResponse.json();
 	//console.log("🚀 ~ characterAchievementsJSON:", characterAchievementsJSON);
 
 	// now we save the latest achievements to the DB - keys:
@@ -75,19 +103,18 @@ router.get("/achievement", async function (req, res) {
 	// completed_timestamp
 	// character_id
 
-	const achievement = characterAchievementsJSON.achievements[0];
-	console.log("🚀 ~ achievement:", achievement);
-	const name = achievement.achievement.name;
-	console.log("🚀 ~ name:", name);
-	const wowId = achievement.id;
-	console.log("🚀 ~ wowId:", wowId);
-	const completedTimestamp = achievement.completed_timestamp;
-	console.log("🚀 ~ completedTimestamp:", completedTimestamp);
-	const date = new Date(achievement.completed_timestamp);
-	console.log("🚀 ~ date:", date);
+	// const achievement = characterAchievementsJSON.achievements[0];
+	// console.log("🚀 ~ achievement:", achievement);
+	// const name = achievement.achievement.name;
+	// console.log("🚀 ~ name:", name);
+	// const wowId = achievement.id;
+	// console.log("🚀 ~ wowId:", wowId);
+	// const completedTimestamp = achievement.completed_timestamp;
+	// console.log("🚀 ~ completedTimestamp:", completedTimestamp);
+	// const date = new Date(achievement.completed_timestamp);
+	// console.log("🚀 ~ date:", date);
 
-	
-	res.json(characterAchievementsJSON);
+	res.json(characterAchievementData);
 });
 
 module.exports = { router };

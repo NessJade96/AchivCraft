@@ -1,7 +1,7 @@
 async function getCharacterAchievements(req, res, decodedToken, getCharacter) {
 	console.log("🚀 ~ getCharacterAchievements ~ getCharacter:", getCharacter);
-	let characterName = getCharacter[0].name;
-	const realmSlug = getCharacter[0].realm_slug;
+	let characterName = getCharacter[0].character.name;
+	const realmSlug = getCharacter[0].character.realm_slug;
 	console.log(
 		"🚀 ~ getCharacterAchievements ~ characterName:",
 		characterName

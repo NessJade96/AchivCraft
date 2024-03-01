@@ -133,3 +133,13 @@ Foreign key - character table
 Defects to fix:
 
 - It doesn't log you in the first time when server starts, errors and works the second time.
+
+SQL - achievements: 
+
+SELECT *
+FROM Achievement
+   LEFT JOIN Character
+      ON Achievement.character_id = Character.character_id
+   LEFT JOIN Follow
+      ON follow.user_id = user_id
+

@@ -16,10 +16,12 @@ export function Home() {
         <button>Load Achievements</button>
       </fetcher.Form>
       <Link to="/search">Search new characters to follow</Link>
-      <p>{data.total_points}</p>
-      <p>{JSON.stringify(data.achievements[0])}</p>
-
-      {JSON.stringify(data.total_points)}
+      <p>
+        Most recent achievement:{JSON.stringify(data[0].name)} completed by{" "}
+        {JSON.stringify(data[0].character.name)} at{" "}
+        {JSON.stringify(data[0].completed_timestamp)}
+      </p>
+      <p>{JSON.stringify(data)}</p>
       <fetcher.Form method="POST" action="/logout">
         <button>Logout</button>
       </fetcher.Form>
@@ -37,6 +39,6 @@ export const loader = async () => {
   if (!characterResponse.ok) {
     return redirect("/login");
   }
-
+  console.log("characterResponse", characterResponse);
   return characterResponse;
 };
