@@ -92,18 +92,19 @@ router.post("/", async function (req, res) {
 		);
 		const characterAchievementsJSON =
 			await characterAchievementsResponse.json();
-		console.log(
-			"🚀 ~ characterAchievementsJSON:",
-			characterAchievementsJSON
-		);
-		// Loop through all achievements to format them so they are ready to be inserted into the DB
-		// now we save the latest achievements to the DB - keys:
-		// name
-		// wow_api_id
-		// completed_timestamp
-		// character_id
 
-		const achievementRows = characterAchievementsJSON.achievements.map(
+		// Loop through all achievements to format them so they are ready to be inserted into the DB
+		const latestAchievements =
+			characterAchievementsJSON.achievements.length > 100
+				? characterAchievementsJSON.achievements.slice(-100)
+				: characterAchievementsJSON.achievements;
+		console.log("🚀 ~ latestAchievements:", latestAchievements);
+
+		const latestAchievementWithTimestamp = latestAchievements.filter(
+			(achievement) => achievement.completed_timestamp
+		);
+
+		const achievementRows = latestAchievementWithTimestamp.map(
 			(achievement) => {
 				return {
 					name: achievement.achievement.name,
@@ -115,13 +116,15 @@ router.post("/", async function (req, res) {
 				};
 			}
 		);
-		console.log("achievementRows:", achievementRows);
 
 		// Then insert to Supabase the result of the fetch achievements
-		const { error: addAchievements } = await supabase
+		const { error: addAchievementsError } = await supabase
 			.from("achievement")
 			.insert(achievementRows);
-		console.log("🚀 ~ addAchievements:", addAchievements);
+
+		if (addAchievementsError) {
+			return res.sendStatus(400);
+		}
 	}
 
 	const newFollow = {
