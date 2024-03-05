@@ -35,7 +35,6 @@ router.get("/", async function (req, res) {
 		//console.log("🚀 ~ getCharacterError:", getCharacterError);
 		return res.sendStatus(400);
 	}
-
     
 	return;
 });

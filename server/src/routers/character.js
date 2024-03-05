@@ -18,15 +18,51 @@ router.get("/achievement", async function (req, res) {
 		return res.sendStatus(400);
 	}
 
-	// const { data: getCharacterIdData, error: getCharacterIdError } =
-	// 	await supabase.from("follow").select("*").eq("user_id", user.id);
+	// On load we are going to fetch the last time a timestamp was
+	// updated in range of last 5 mins from SUPABASE
+	const currentTime = new Date();
+	const fiveMinutesAgo = new Date(currentTime - 5 * 60000);
+	var date = new Date(fiveMinutesAgo);
+	var formattedDate =
+		date.getUTCFullYear() +
+		"-" +
+		("0" + (date.getUTCMonth() + 1)).slice(-2) +
+		"-" +
+		("0" + date.getUTCDate()).slice(-2) +
+		" " +
+		("0" + date.getUTCHours()).slice(-2) +
+		":" +
+		("0" + date.getUTCMinutes()).slice(-2) +
+		":" +
+		("0" + date.getUTCSeconds()).slice(-2) +
+		"." +
+		("00" + date.getUTCMilliseconds()).slice(-3) +
+		"+00";
 
-	// console.log("🚀 ~ getCharacterIdData:", getCharacterIdData);
+	// Lists the users followed character's that have achievements older than 5mins
+	const { data: getOldAchievementsData, error: getOldAchievementsError } =
+		await supabase
+			.from("achievement_request_timestamp")
+			.select(
+				`updated_at, 
+			character_id, 
+			character!inner (
+				id,
+				name,
+				achievement_points,
+				realm_slug,
+				follow!inner (
+					user_id
+				)
+			)`
+			)
+			.lte("updated_at", formattedDate); //more than 5 mins ago
+	console.log("🚀 ~ getOldAchievementsData:", getOldAchievementsData);
 
-	// if (getCharacterIdError) {
-	// 	//console.log("🚀 ~ getCharacterError:", getCharacterError);
-	// 	return res.sendStatus(400);
-	// }
+	if (getOldAchievementsError) {
+		console.log("🚀 ~ getOldAchievementsError:", getOldAchievementsError);
+		return res.sendStatus(400);
+	}
 
 	let { data: characterAchievementData, error: characterAchievementError } =
 		await supabase
@@ -52,10 +88,9 @@ router.get("/achievement", async function (req, res) {
 			.eq("character.follow.user_id", user.id)
 			.order("completed_timestamp", { ascending: false });
 
-	console.log("🚀 ~ testError:", characterAchievementError);
-	console.log("🚀 ~ characterAchievementData:", characterAchievementData);
-
-
+	if (characterAchievementError) {
+		return res.sendStatus(400);
+	}
 	//const characterId = getCharacterIdData[0].character_id;
 	//console.log("🚀 ~ characterId:", characterId);
 
@@ -69,11 +104,6 @@ router.get("/achievement", async function (req, res) {
 	// 	//console.log("🚀 ~ getCharacterError:", getCharacterError);
 	// 	return res.sendStatus(400);
 	// }
-
-
-	
-
-
 
 	res.json(characterAchievementData);
 });
