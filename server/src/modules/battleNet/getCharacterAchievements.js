@@ -1,6 +1,7 @@
 const { createClient } = require("../../databaseClient.js");
 
 async function getCharacterAchievements(req, res, decodedToken, getCharacter) {
+	console.log("🚀 ~ getCharacterAchievements ~ getCharacter:", getCharacter);
 	const supabase = createClient({ req, res });
 	const {
 		data: { user },
@@ -15,19 +16,20 @@ async function getCharacterAchievements(req, res, decodedToken, getCharacter) {
 	// Then insert to Supabase the achievement request timestamp
 	const { error: addAchievementRequestTimestampError } = await supabase
 		.from("achievement_request_timestamp")
-		.insert([
+		.upsert([
 			{
-				character_id: getCharacter[0].id,
+				character_id: getCharacter.id,
 				updated_at: new Date(),
 			},
-		]);
+		])
+		.eq("character_id", getCharacter.id);
 
 	if (addAchievementRequestTimestampError) {
 		return res.sendStatus(400);
 	}
 
-	let characterName = getCharacter[0].name;
-	const realmSlug = getCharacter[0].realm_slug;
+	let characterName = getCharacter.name;
+	const realmSlug = getCharacter.realm_slug;
 
 	characterName =
 		characterName.charAt(0).toLowerCase() + characterName.slice(1);

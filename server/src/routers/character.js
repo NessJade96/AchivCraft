@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-// const {
-// 	getCharacterAchievements,
-// } = require("../modules/battleNet/getCharacterAchievements");
+const {
+	getCharacterAchievements,
+} = require("../modules/battleNet/getCharacterAchievements");
 const { createClient } = require("../databaseClient.js");
 
 router.get("/achievement", async function (req, res) {
@@ -39,7 +39,7 @@ router.get("/achievement", async function (req, res) {
 		("00" + date.getUTCMilliseconds()).slice(-3) +
 		"+00";
 
-	// Lists the users followed character's that have achievements older than 5mins
+	// Lists the current users followed character's that have achievements older than 5mins
 	const { data: getOldAchievementsData, error: getOldAchievementsError } =
 		await supabase
 			.from("achievement_request_timestamp")
@@ -58,11 +58,50 @@ router.get("/achievement", async function (req, res) {
 			)
 			.lte("updated_at", formattedDate); //more than 5 mins ago
 	console.log("🚀 ~ getOldAchievementsData:", getOldAchievementsData);
-
 	if (getOldAchievementsError) {
 		console.log("🚀 ~ getOldAchievementsError:", getOldAchievementsError);
 		return res.sendStatus(400);
 	}
+
+	// Retrieve the JWT from cookies
+	const signedJwt = req.cookies.jwt;
+	if (!signedJwt) {
+		res.status(401).json({ message: "JWT not found" });
+		return;
+	}
+	// Verify the JWT
+	const decodedToken = jwt.verify(signedJwt, "Super_Secret_Password");
+	if (!decodedToken.access_token) {
+		res.status(401).json({ message: "Invalid access token" });
+		return;
+	}
+
+	// Format the characters that require updated achievements
+	const charactersToFetchRecentAchievements = getOldAchievementsData.map(
+		async (character) => {
+			const characterData = {
+				id: character.character_id,
+				name: character.character.name,
+				realm_slug: character.character.realm_slug,
+			};
+			const characterAchievementsResponse =
+				await getCharacterAchievements(
+					req,
+					res,
+					decodedToken,
+					characterData
+				);
+			return characterAchievementsResponse.json();
+		}
+	);
+
+	const refetchedAchievements = await Promise.all(
+		charactersToFetchRecentAchievements
+	);
+	//lists the character achievements from Blizz
+	console.log("🚀 ~ refetchedAchievements:", refetchedAchievements);
+
+	// NEED TO filter through and get the latest 100 and upsert to DB
 
 	let { data: characterAchievementData, error: characterAchievementError } =
 		await supabase

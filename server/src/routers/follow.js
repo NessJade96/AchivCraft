@@ -61,7 +61,8 @@ router.post("/", async function (req, res) {
 				achievement_points: characterAchievementPoints,
 				realm_slug: characterRealmSlug,
 			})
-			.select("id, name, realm_slug");
+			.select("id, name, realm_slug")
+			.single();
 
 		if (characterError) {
 			return res.sendStatus(400);
