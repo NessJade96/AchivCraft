@@ -77,7 +77,7 @@ router.get("/achievement", async function (req, res) {
 	}
 
 	// Format the characters that require updated achievements
-	const charactersToFetchRecentAchievements = getOldAchievementsData.map(
+	const refetchedAchievementPromises = getOldAchievementsData.map(
 		async (character) => {
 			const characterData = {
 				id: character.character_id,
@@ -91,17 +91,47 @@ router.get("/achievement", async function (req, res) {
 					decodedToken,
 					characterData
 				);
-			return characterAchievementsResponse.json();
+			const characterAchievementsBody =
+				await characterAchievementsResponse.json();
+
+			// format achievements
+			const latestAchievements =
+				characterAchievementsBody.achievements.length > 100
+					? characterAchievementsBody.achievements.slice(-100)
+					: characterAchievementsBody.achievements;
+
+			const latestAchievementsWithTimestamp = latestAchievements.filter(
+				(achievement) => achievement.completed_timestamp
+			);
+
+			return latestAchievementsWithTimestamp.map((achievement) => {
+				return {
+					name: achievement.achievement.name,
+					wow_api_id: achievement.id,
+					completed_timestamp: new Date(
+						achievement.completed_timestamp
+					),
+					character_id: character.character_id,
+				};
+			});
 		}
 	);
 
 	const refetchedAchievements = await Promise.all(
-		charactersToFetchRecentAchievements
+		refetchedAchievementPromises
 	);
-	//lists the character achievements from Blizz
-	console.log("🚀 ~ refetchedAchievements:", refetchedAchievements);
 
-	// NEED TO filter through and get the latest 100 and upsert to DB
+	// Then insert to Supabase the result of the fetched achievements for each element in array
+	const { error: addAchievementsError } = await supabase
+		.from("achievement")
+		.upsert(refetchedAchievements.flat(), {
+			onConflict: "wow_api_id, character_id",
+		});
+
+	if (addAchievementsError) {
+		console.log("🚀 ~ addAchievementsError:", addAchievementsError);
+		return res.sendStatus(400);
+	}
 
 	let { data: characterAchievementData, error: characterAchievementError } =
 		await supabase
@@ -130,19 +160,6 @@ router.get("/achievement", async function (req, res) {
 	if (characterAchievementError) {
 		return res.sendStatus(400);
 	}
-	//const characterId = getCharacterIdData[0].character_id;
-	//console.log("🚀 ~ characterId:", characterId);
-
-	// const { data: getCharacter, error: getCharacterError } = await supabase
-	// 	.from("character")
-	// 	.select("*")
-	// 	.eq("id", characterId);
-	// console.log("🚀 ~ getCharacter:", getCharacter);
-
-	// if (getCharacterError) {
-	// 	//console.log("🚀 ~ getCharacterError:", getCharacterError);
-	// 	return res.sendStatus(400);
-	// }
 
 	res.json(characterAchievementData);
 });
