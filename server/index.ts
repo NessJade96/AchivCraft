@@ -1,5 +1,5 @@
 require("dotenv").config();
-const express = require("express");
+import express from "express";
 const app = express();
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
@@ -37,6 +37,14 @@ app.use(function (err, req, res) {
 	return;
 });
 
-const server = app.listen(3000, function () {
-	console.log("Listening on port %d", server.address().port);
+app.get("/test", (req, res) => {
+	console.log("🚀 ~ app.get ~ res:", res)
+	console.log("🚀 ~ app.get ~ req:", req)
+	res.send("Express + TypeScript Server");
+  });
+
+app.listen(3000, () => {
+	console.log("Listening on port:3000");
 });
+
+
