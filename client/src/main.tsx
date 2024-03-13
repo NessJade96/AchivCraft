@@ -6,7 +6,6 @@ import { action as followAction } from "./pages/Follow.tsx";
 import { action as unfollowAction } from "./pages/Unfollow.tsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { action as achievementAction } from "./pages/Achievement.tsx";
 
 import { Login, action as loginAction } from "./pages/Login.tsx";
 import { action as logoutAction } from "./pages/Logout.tsx";
@@ -49,10 +48,6 @@ const router = createBrowserRouter([
   {
     path: "/logout",
     action: logoutAction,
-  },
-  {
-    path: "/achievement",
-    action: achievementAction,
   },
 ]);
 
