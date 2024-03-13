@@ -1,27 +1,29 @@
-import { ActionFunctionArgs, Form, Link, redirect } from "react-router-dom";
+import { ActionFunctionArgs, Form, redirect } from "react-router-dom";
+import { Button } from "../components/Button";
+import { Input } from "../components/Input";
+import { Link } from "../components/Link";
+
 
 export function Login() {
   return (
     <>
       <Form method="POST">
-        <input
+        <Input
           required
           type="email"
           name="email"
           defaultValue="vkellyy@gmail.com"
         />
-        <input
+        <Input
           required
           type="password"
           name="password"
           defaultValue="V_HHicBASx5_P2M"
         />
-        <button>Login</button>
+        <Button>Login</Button>
       </Form>
+
       <Link to="/signup">Create Account?</Link>
-      {
-        //JSON.stringify(data)
-      }
     </>
   );
 }
