@@ -12,9 +12,6 @@ export function Home() {
   return (
     <>
       <h1>Recent Achievements</h1>
-      <fetcher.Form method="POST" action="/achievement">
-        <button>Load Achievements</button>
-      </fetcher.Form>
       <Link to="/search">Search new characters to follow</Link>
       <p>
         Most recent achievement:{JSON.stringify(data[0].name)} completed by{" "}

@@ -18,8 +18,7 @@ router.get("/achievement", async function (req, res) {
 		return res.sendStatus(400);
 	}
 
-	// On load we are going to fetch the last time a timestamp was
-	// updated in range of last 5 mins from SUPABASE
+	// On load we are going to fetch the last time a timestamp was updated within the last  5 mins
 	const currentTime = new Date();
 	const fiveMinutesAgo = new Date(currentTime - 5 * 60000);
 	var date = new Date(fiveMinutesAgo);
