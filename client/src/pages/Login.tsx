@@ -3,27 +3,33 @@ import { Button } from "../components/Button";
 import { Input } from "../components/Input";
 import { Link } from "../components/Link";
 
-
 export function Login() {
   return (
     <>
       <Form method="POST">
         <Input
+          label="Email"
           required
           type="email"
           name="email"
           defaultValue="vkellyy@gmail.com"
+          //placeholder="Enter your email"
         />
+
         <Input
+          label="Password"
           required
           type="password"
           name="password"
           defaultValue="V_HHicBASx5_P2M"
+          //placeholder="********"
         />
+
         <Button>Login</Button>
       </Form>
-
-      <Link to="/signup">Create Account?</Link>
+      <p className="text-center py-6 text-gray-500">
+        Don't have an account? <Link to="/signup">Sign up</Link>
+      </p>
     </>
   );
 }
