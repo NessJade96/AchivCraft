@@ -13,7 +13,7 @@ import { Search, loader as searchLoader } from "./pages/Search.tsx";
 
 const router = createBrowserRouter([
   {
-    path: "/home",
+    path: "/",
     element: <Home />,
     loader: homeLoader,
   },

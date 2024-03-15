@@ -68,7 +68,7 @@ export function Search() {
           )}
         </>
       ) : null}
-      <Link to="/home">Back to home</Link>
+      <Link to="/">Back to home</Link>
       <pre style={{ textAlign: "left" }}>
         {JSON.stringify(data, undefined, 2)}
       </pre>

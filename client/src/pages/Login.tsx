@@ -2,10 +2,17 @@ import { ActionFunctionArgs, Form, redirect } from "react-router-dom";
 import { Button } from "../components/Button";
 import { Input } from "../components/Input";
 import { Link } from "../components/Link";
+import { Text } from "../components/Text";
 
 export function Login() {
   return (
-    <>
+    <div className="px-80 ">
+      <div className="pt-40">
+        <Text tag="h1">Log in to your account</Text>
+      </div>
+      <div className="py-8">
+        <Text tag="h2">Welcome back! Please enter your details</Text>
+      </div>
       <Form method="POST">
         <Input
           label="Email"
@@ -24,13 +31,14 @@ export function Login() {
           defaultValue="V_HHicBASx5_P2M"
           //placeholder="********"
         />
-
-        <Button>Login</Button>
+        <div className="py-6">
+          <Button>Login</Button>
+        </div>
       </Form>
       <p className="text-center py-6 text-gray-500">
         Don't have an account? <Link to="/signup">Sign up</Link>
       </p>
-    </>
+    </div>
   );
 }
 
@@ -51,7 +59,7 @@ export async function action({ request }: ActionFunctionArgs) {
     }),
   });
   if (loginResponse.ok) {
-    return redirect("/home");
+    return redirect("/");
   }
   return loginResponse;
 }
