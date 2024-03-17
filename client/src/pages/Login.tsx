@@ -3,6 +3,7 @@ import { Button } from "../components/Button";
 import { Input } from "../components/Input";
 import { Link } from "../components/Link";
 import { Text } from "../components/Text";
+import { FormItem } from "../components/FormItem";
 
 export function Login() {
   return (
@@ -14,23 +15,24 @@ export function Login() {
         <Text tag="h2">Welcome back! Please enter your details</Text>
       </div>
       <Form method="POST">
-        <Input
-          label="Email"
-          required
-          type="email"
-          name="email"
-          defaultValue="vkellyy@gmail.com"
-          //placeholder="Enter your email"
-        />
-
-        <Input
-          label="Password"
-          required
-          type="password"
-          name="password"
-          defaultValue="V_HHicBASx5_P2M"
-          //placeholder="********"
-        />
+        <FormItem label="Email">
+          <Input
+            required
+            type="email"
+            name="email"
+            defaultValue="vkellyy@gmail.com"
+            //placeholder="Enter your email"
+          />
+        </FormItem>
+        <FormItem label="Password">
+          <Input
+            required
+            type="password"
+            name="password"
+            defaultValue="V_HHicBASx5_P2M"
+            //placeholder="********"
+          />
+        </FormItem>
         <div className="py-6">
           <Button>Login</Button>
         </div>
