@@ -1,36 +1,44 @@
-import {
-  Link,
-  ActionFunctionArgs,
-  Form,
-  useActionData,
-} from "react-router-dom";
+import { ActionFunctionArgs, Form, useActionData } from "react-router-dom";
+import { Input } from "../components/Input";
+import { Button } from "../components/Button";
+import { Link } from "../components/Link";
+import { Text } from "../components/Text";
 
 export function Signup() {
   const data = useActionData();
   return (
-    <>
+    <div className="px-80">
+      <div className="pt-40">
+        <Text tag="h1">Sign up to create an account</Text>
+      </div>
+      <div className="py-8">
+        <Text tag="h2">Want to join? Please enter your details.</Text>
+      </div>
       <Form method="POST">
-        <input
+        <Input
+          label="Email"
           required
           type="email"
           name="email"
           placeholder="Example@email.com"
         />
-        <input
+        <Input
+          label="Password"
           required
           type="password"
           name="password"
           placeholder="New Password"
         />
-        <button name="intent" value="Signup">
-          Create Account
-        </button>
+        <div className="py-6">
+          <Button>Create Account</Button>
+        </div>
       </Form>
-      <Link to="/login">
-        If you already have an account, click here to go to login page
-      </Link>
+      <p className="text-center py-6 text-gray-500">
+        If you already have an account?
+        <Link to="/login"> Sign in</Link>
+      </p>
       {JSON.stringify(data)}
-    </>
+    </div>
   );
 }
 
