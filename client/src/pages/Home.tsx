@@ -1,10 +1,4 @@
-import {
-  Link,
-  LoaderFunctionArgs,
-  redirect,
-  useFetcher,
-  useLoaderData,
-} from "react-router-dom";
+import { Link, redirect, useFetcher, useLoaderData } from "react-router-dom";
 
 export function Home() {
   const data: any = useLoaderData();

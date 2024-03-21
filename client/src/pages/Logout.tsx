@@ -1,6 +1,6 @@
-import { ActionFunctionArgs, redirect } from "react-router-dom";
+import { redirect } from "react-router-dom";
 
-export async function action({ request }: ActionFunctionArgs) {
+export async function action() {
   const logoutResponse = await fetch("http://localhost:3000/logout", {
     method: "POST",
     credentials: "include",
