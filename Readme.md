@@ -16,6 +16,24 @@ This independent project is a real-world full-stack application leveraging the B
 
 React, Typescript, Node.js, Express.js, Tailwind, Vite, JWT, react-dom, react-router-dom, SQL, Supabase.
 
+## App Screenshots:
+
+### Login Page:
+
+![Login Page](./client/src/assets/LoginPage.png)
+
+### Sign up Page:
+
+![Sign up Page](./client/src/assets/SignupPage.png)
+
+### Home: Needs styling! **to do**
+
+![Unstyled Home Page](./client/src/assets/HomePage.png)
+
+### Search:
+
+![Search Page](./client/src/assets/SearchPage.png)
+
 ## Planning Notes & Process
 
 ### pages:
@@ -66,6 +84,10 @@ installed Vite
 made some pages with react router
 Created call from /login page to "/ping" using a react router Form and action to GET data from the server!
 
+## Design system -> UntitledUI
+
+[Untitled UI](https://www.untitledui.com/)
+
 Created a DB on supabase: https://supabase.com/dashboard/project/orxjphplghtiznnhxddv
 Seeded DB online and logged in the user then returned logged in users info to console
 Created the ability to enter details on login page, and create new users via the signup page.
@@ -93,27 +115,5 @@ Added:
 - error handling for queries to check if the user is logged in
 - Then render characters achievements to the home page / timeline (updates Achievements from Blizzard API every 5 mins if refreshed)
 - design ideas (figma)
-
-## Design system -> UntitledUI
-
-[Untitled UI](https://www.untitledui.com/)
-
-## App Screenshots:
-
-### Login Page:
-
-![Login Page](./client/src/assets/LoginPage.png)
-
-### Sign up Page:
-
-![Sign up Page](./client/src/assets/SignupPage.png)
-
-### Home: Needs styling! **to do**
-
-![Unstyled Home Page](./client/src/assets/HomePage.png)
-
-### Search:
-
-![Search Page](./client/src/assets/SearchPage.png)
 
 Thank you, Vanessa Bloom <(^.^)>
