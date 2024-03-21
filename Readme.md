@@ -96,20 +96,24 @@ Added:
 
 ## Design system -> UntitledUI
 
-## App Screenshots:
-
 [Untitled UI](https://www.untitledui.com/)
 
-Login Page:
+## App Screenshots:
+
+### Login Page:
+
 ![Login Page](./client/src/assets/LoginPage.png)
 
-Sign up Page:
+### Sign up Page:
+
 ![Sign up Page](./client/src/assets/SignupPage.png)
 
-Home: Needs styling! **to do**
+### Home: Needs styling! **to do**
+
 ![Unstyled Home Page](./client/src/assets/HomePage.png)
 
-Search:
+### Search:
+
 ![Search Page](./client/src/assets/SearchPage.png)
 
 Thank you, Vanessa Bloom <(^.^)>
