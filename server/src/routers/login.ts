@@ -40,7 +40,7 @@ router.post("/", async function (req, res) {
 	res.cookie("jwt", signedJwt, {
 		httpOnly: true,
 		maxAge: 3600000,
-		domain: "https://achiv-craft-client.vercel.app",
+		domain: "https://achiv-craft-server.vercel.app",
 		path: "/",
 	}); // maxAge is in milliseconds (1 hour in this case)
 	res.json({ success: true });
