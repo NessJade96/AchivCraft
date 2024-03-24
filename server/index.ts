@@ -33,6 +33,10 @@ app.use("/search", searchRouter);
 app.use("/signup", signupRouter);
 app.use("/unfollow", unfollowRouter);
 
+app.get("*", (req, res) => {
+    res.send("Error 404 Invalid Endpoint");
+})
+
 app.use(function (err, req, res) {
 	console.error(err);
 	return;
