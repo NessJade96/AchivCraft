@@ -51,7 +51,7 @@ export async function action({ request }: ActionFunctionArgs) {
   const email = formData.get("email");
   const password = formData.get("password");
 
-  fetch("http://localhost:3000/signup", {
+  fetch(`${import.meta.env.VITE_API_URL}/signup`, {
     method: "POST",
     credentials: "include",
     headers: {

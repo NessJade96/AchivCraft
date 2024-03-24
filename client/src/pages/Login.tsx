@@ -49,7 +49,7 @@ export async function action({ request }: ActionFunctionArgs) {
   const email = formData.get("email");
   const password = formData.get("password");
 
-  const loginResponse = await fetch("http://localhost:3000/login", {
+  const loginResponse = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
     method: "POST",
     credentials: "include",
     headers: {

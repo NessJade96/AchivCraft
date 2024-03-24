@@ -4,7 +4,7 @@ export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
   const followId = formData.get("followId");
 
-  return fetch("http://localhost:3000/unfollow", {
+  return fetch(`${import.meta.env.VITE_API_URL}/unfollow`, {
     method: "POST",
     credentials: "include",
     headers: {

@@ -3,7 +3,7 @@ import jwt  from "jsonwebtoken";
 import {
 	getCharacterAchievements,
 }  from "../modules/battleNet/getCharacterAchievements"
-import { createClient }  from "../databaseClient.js"
+import { createClient }  from "../databaseClient"
 
 
 

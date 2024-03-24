@@ -22,7 +22,7 @@ export function Home() {
 
 export const loader = async () => {
   const characterResponse = await fetch(
-    "http://localhost:3000/character/achievement",
+    `${import.meta.env.VITE_API_URL}/character/achievement`,
     {
       credentials: "include",
     }

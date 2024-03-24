@@ -8,8 +8,8 @@ export async function action({ request }: ActionFunctionArgs) {
   const characterClass = formData.get("class");
   const characterAchievementPoints = formData.get("achievementPoints");
   const characterRealmSlug = formData.get("realmSlug");
-  
-  return fetch("http://localhost:3000/follow", {
+
+  return fetch(`${import.meta.env.VITE_API_URL}/follow`, {
     method: "POST",
     credentials: "include",
     headers: {

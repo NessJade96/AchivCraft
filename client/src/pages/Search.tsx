@@ -97,7 +97,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   if (hasRequiredKeys) {
     const searchResponse = await fetch(
-      `http://localhost:3000/search${url.search}`,
+      `${import.meta.env.VITE_API_URL}/search${url.search}`,
       {
         credentials: "include",
       }

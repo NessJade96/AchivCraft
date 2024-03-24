@@ -16,12 +16,12 @@ exports.router = void 0;
 const express_1 = __importDefault(require("express"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const getCharacterAchievements_1 = require("../modules/battleNet/getCharacterAchievements");
-const databaseClient_js_1 = require("../databaseClient.js");
+const databaseClient_1 = require("../databaseClient");
 const router = express_1.default.Router();
 exports.router = router;
 router.get("/achievement", function (req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const supabase = (0, databaseClient_js_1.createClient)({ req, res });
+        const supabase = (0, databaseClient_1.createClient)({ req, res });
         const { data: { user }, error: userError, } = yield supabase.auth.getUser();
         if (userError) {
             console.log("🚀 ~ userError:", userError);
