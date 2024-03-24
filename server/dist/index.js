@@ -9,14 +9,14 @@ const app = (0, express_1.default)();
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const { router: characterRouter } = require("./src/routers/character.js");
-const { router: followRouter } = require("./src/routers/follow.js");
-const { router: loginRouter } = require("./src/routers/login.js");
-const { router: logoutRouter } = require("./src/routers/logout.js");
-const { router: searchRouter } = require("./src/routers/search.js");
-const { router: signupRouter } = require("./src/routers/signup.js");
-const { router: unfollowRouter } = require("./src/routers/unfollow.js");
-const { router: healthRouter } = require("./src/routers/health.js");
+const character_1 = require("./src/routers/character");
+const follow_1 = require("./src/routers/follow");
+const login_1 = require("./src/routers/login");
+const logout_1 = require("./src/routers/logout");
+const search_1 = require("./src/routers/search");
+const signup_1 = require("./src/routers/signup");
+const unfollow_1 = require("./src/routers/unfollow");
+const health_1 = require("./src/routers/health");
 app.use(cookieParser());
 app.use(cors({
     origin: process.env.CLIENT_URL, // Allow requests from this origin
@@ -24,14 +24,17 @@ app.use(cors({
     credentials: true,
 }));
 app.use(bodyParser.json());
-app.use("/health", healthRouter);
-app.use("/character", characterRouter);
-app.use("/follow", followRouter);
-app.use("/login", loginRouter);
-app.use("/logout", logoutRouter);
-app.use("/search", searchRouter);
-app.use("/signup", signupRouter);
-app.use("/unfollow", unfollowRouter);
+app.use("/health", health_1.router);
+app.use("/character", character_1.router);
+app.use("/follow", follow_1.router);
+app.use("/login", login_1.router);
+app.use("/logout", logout_1.router);
+app.use("/search", search_1.router);
+app.use("/signup", signup_1.router);
+app.use("/unfollow", unfollow_1.router);
+app.get("*", (req, res) => {
+    res.send("Error 404 Invalid Endpoint");
+});
 app.use(function (err, req, res) {
     console.error(err);
     return;
@@ -39,3 +42,4 @@ app.use(function (err, req, res) {
 app.listen(process.env.PORT, () => {
     console.log(`Listening on http://localhost:${process.env.PORT}`);
 });
+//# sourceMappingURL=index.js.map

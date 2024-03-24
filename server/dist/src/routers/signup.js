@@ -8,11 +8,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const express = require("express");
-const router = express.Router();
-const { supabaseClient } = require("../databaseClient.js");
-const jwt = require("jsonwebtoken");
-const { getBattleNetToken } = require("../modules/battleNet/getBattleNetToken.js");
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.router = void 0;
+const express_1 = __importDefault(require("express"));
+const databaseClient_1 = require("../databaseClient");
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const getBattleNetToken_1 = require("../modules/battleNet/getBattleNetToken");
+const router = express_1.default.Router();
+exports.router = router;
 router.post("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const { email, password } = req.body;
@@ -20,7 +26,9 @@ router.post("/", function (req, res) {
             res.sendStatus(401);
             return;
         }
-        const { data: { user }, } = yield supabaseClient.auth.signUp({
+        const { data: { user },
+        // @ts-expect-error get deployment working
+         } = yield databaseClient_1.supabaseClient.auth.signUp({
             email,
             password,
         });
@@ -28,8 +36,8 @@ router.post("/", function (req, res) {
             res.sendStatus(401);
             return;
         }
-        const battleNetTokenJson = yield getBattleNetToken();
-        const signedJwt = jwt.sign({
+        const battleNetTokenJson = yield (0, getBattleNetToken_1.getBattleNetToken)();
+        const signedJwt = jsonwebtoken_1.default.sign({
             access_token: battleNetTokenJson.access_token,
         }, "Super_Secret_Password");
         res.cookie("jwt", signedJwt, {
@@ -41,4 +49,4 @@ router.post("/", function (req, res) {
         res.json({ success: true });
     });
 });
-module.exports = { router };
+//# sourceMappingURL=signup.js.map

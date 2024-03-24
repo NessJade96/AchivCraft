@@ -8,11 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const { createClient } = require("../../databaseClient.js");
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getCharacterAchievements = void 0;
+const databaseClient_1 = require("../../databaseClient");
+// @ts-expect-error get deployment working
 function getCharacterAchievements(req, res, decodedToken, getCharacter) {
     return __awaiter(this, void 0, void 0, function* () {
         console.log("🚀 ~ getCharacterAchievements ~ getCharacter:", getCharacter);
-        const supabase = createClient({ req, res });
+        const supabase = (0, databaseClient_1.createClient)({ req, res });
         const { data: { user }, error: userError, } = yield supabase.auth.getUser();
         if (userError) {
             console.log("🚀 ~ userError:", userError);
@@ -51,4 +54,5 @@ function getCharacterAchievements(req, res, decodedToken, getCharacter) {
         return characterAchievementsResponse;
     });
 }
-module.exports = { getCharacterAchievements };
+exports.getCharacterAchievements = getCharacterAchievements;
+//# sourceMappingURL=getCharacterAchievements.js.map
