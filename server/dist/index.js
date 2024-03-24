@@ -16,13 +16,15 @@ const { router: logoutRouter } = require("./src/routers/logout.js");
 const { router: searchRouter } = require("./src/routers/search.js");
 const { router: signupRouter } = require("./src/routers/signup.js");
 const { router: unfollowRouter } = require("./src/routers/unfollow.js");
+const { router: healthRouter } = require("./src/routers/health.js");
 app.use(cookieParser());
 app.use(cors({
-    origin: "http://localhost:5173", // Allow requests from this origin
+    origin: process.env.CLIENT_URL, // Allow requests from this origin
     optionsSuccessStatus: 200, // Some legacy browsers (IE11, various SmartTVs) choke on 204,
     credentials: true,
 }));
 app.use(bodyParser.json());
+app.use("/health", healthRouter);
 app.use("/character", characterRouter);
 app.use("/follow", followRouter);
 app.use("/login", loginRouter);
@@ -34,6 +36,6 @@ app.use(function (err, req, res) {
     console.error(err);
     return;
 });
-app.listen(3000, () => {
-    console.log("Listening on port:3000");
+app.listen(process.env.PORT, () => {
+    console.log(`Listening on http://localhost:${process.env.PORT}`);
 });
