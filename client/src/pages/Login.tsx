@@ -40,12 +40,22 @@ export function Login() {
       <p className="text-center py-6 text-gray-500">
         Don't have an account? <Link to="/signup">Sign up</Link>
       </p>
+      <Form method="POST">
+        <button name="intent" value="health">
+          health
+        </button>
+      </Form>
     </div>
   );
 }
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
+
+  if (formData.get("intent") === "health") {
+    return fetch(`${import.meta.env.VITE_API_URL}/health`);
+  }
+
   const email = formData.get("email");
   const password = formData.get("password");
 
