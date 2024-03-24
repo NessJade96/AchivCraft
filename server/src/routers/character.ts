@@ -11,6 +11,7 @@ const router = express.Router();
 
 
 router.get("/achievement", async function (req, res) {
+	console.log("🚀 ~ req:", req.cookies)
 	const supabase = createClient({ req, res });
 	const {
 		data: { user },
