@@ -20,7 +20,13 @@ router.get("/achievement", async function (req, res) {
 
 	if (userError) {
 		console.log("🚀 ~ userError:", userError);
-		return res.sendStatus(400);
+		res.status(400);
+		res.json({
+			message: "no user found",
+			cookies: req.cookies
+		})
+		res.send();
+		return;
 	}
 
 	// On load we are going to fetch the last time a timestamp was updated within the last  5 mins
