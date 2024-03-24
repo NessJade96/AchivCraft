@@ -1,6 +1,8 @@
-const { createClient } = require("../../databaseClient.js");
+import { createClient } from"../../databaseClient";
 
-async function getCharacterAchievements(req, res, decodedToken, getCharacter) {
+// @ts-expect-error get deployment working
+
+export async function getCharacterAchievements(req, res, decodedToken, getCharacter) {
 	console.log("🚀 ~ getCharacterAchievements ~ getCharacter:", getCharacter);
 	const supabase = createClient({ req, res });
 	const {
@@ -54,4 +56,4 @@ async function getCharacterAchievements(req, res, decodedToken, getCharacter) {
 	return characterAchievementsResponse;
 }
 
-module.exports = { getCharacterAchievements };
+

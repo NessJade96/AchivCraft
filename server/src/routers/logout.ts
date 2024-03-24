@@ -1,6 +1,8 @@
-const express = require("express");
+import express from "express";
+import { createClient } from "../databaseClient";
+
 const router = express.Router();
-const { createClient } = require("../databaseClient.js");
+
 
 router.post("/", async function (req, res) {
 	const supabase = createClient({ req, res });
@@ -13,4 +15,6 @@ router.post("/", async function (req, res) {
 	res.send();
 });
 
-module.exports = { router };
+export {
+	router
+}

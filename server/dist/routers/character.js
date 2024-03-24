@@ -8,14 +8,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const express = require("express");
-const router = express.Router();
-const jwt = require("jsonwebtoken");
-const { getCharacterAchievements, } = require("../modules/battleNet/getCharacterAchievements");
-const { createClient } = require("../databaseClient.js");
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.router = void 0;
+const express_1 = __importDefault(require("express"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const getCharacterAchievements_1 = require("../modules/battleNet/getCharacterAchievements");
+const databaseClient_js_1 = require("../databaseClient.js");
+const router = express_1.default.Router();
+exports.router = router;
 router.get("/achievement", function (req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const supabase = createClient({ req, res });
+        const supabase = (0, databaseClient_js_1.createClient)({ req, res });
         const { data: { user }, error: userError, } = yield supabase.auth.getUser();
         if (userError) {
             console.log("🚀 ~ userError:", userError);
@@ -23,6 +29,7 @@ router.get("/achievement", function (req, res) {
         }
         // On load we are going to fetch the last time a timestamp was updated within the last  5 mins
         const currentTime = new Date();
+        // @ts-expect-error get deployment working
         const fiveMinutesAgo = new Date(currentTime - 5 * 60000);
         var date = new Date(fiveMinutesAgo);
         var formattedDate = date.getUTCFullYear() +
@@ -66,7 +73,8 @@ router.get("/achievement", function (req, res) {
             return;
         }
         // Verify the JWT
-        const decodedToken = jwt.verify(signedJwt, "Super_Secret_Password");
+        const decodedToken = jsonwebtoken_1.default.verify(signedJwt, "Super_Secret_Password");
+        // @ts-expect-error get deployment working
         if (!decodedToken.access_token) {
             res.status(401).json({ message: "Invalid access token" });
             return;
@@ -75,16 +83,21 @@ router.get("/achievement", function (req, res) {
         const refetchedAchievementPromises = getOldAchievementsData.map((character) => __awaiter(this, void 0, void 0, function* () {
             const characterData = {
                 id: character.character_id,
+                // @ts-expect-error get deployment working
                 name: character.character.name,
+                // @ts-expect-error get deployment working
                 realm_slug: character.character.realm_slug,
             };
-            const characterAchievementsResponse = yield getCharacterAchievements(req, res, decodedToken, characterData);
+            const characterAchievementsResponse = yield (0, getCharacterAchievements_1.getCharacterAchievements)(req, res, decodedToken, characterData);
             const characterAchievementsBody = yield characterAchievementsResponse.json();
             // format achievements
             const latestAchievements = characterAchievementsBody.achievements.length > 100
                 ? characterAchievementsBody.achievements.slice(-100)
                 : characterAchievementsBody.achievements;
-            const latestAchievementsWithTimestamp = latestAchievements.filter((achievement) => achievement.completed_timestamp);
+            const latestAchievementsWithTimestamp = latestAchievements.filter(
+            // @ts-expect-error get deployment working
+            (achievement) => achievement.completed_timestamp);
+            // @ts-expect-error get deployment working
             return latestAchievementsWithTimestamp.map((achievement) => {
                 return {
                     name: achievement.achievement.name,
@@ -122,7 +135,7 @@ router.get("/achievement", function (req, res) {
 		)
     )
 	
-  `)
+  `) // @ts-expect-error get deployment working
             .eq("character.follow.user_id", user.id)
             .order("completed_timestamp", { ascending: false });
         if (characterAchievementError) {
@@ -131,5 +144,4 @@ router.get("/achievement", function (req, res) {
         res.json(characterAchievementData);
     });
 });
-module.exports = { router };
 //# sourceMappingURL=character.js.map

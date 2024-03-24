@@ -1,8 +1,10 @@
-const express = require("express");
+import express from"express";
+import { createClient } from"../databaseClient";
+import jwt from"jsonwebtoken";
+import {getBattleNetToken} from"../modules/battleNet/getBattleNetToken";
+
 const router = express.Router();
-const { createClient } = require("../databaseClient.js");
-const jwt = require("jsonwebtoken");
-const {getBattleNetToken} = require("../modules/battleNet/getBattleNetToken.js");
+
 
 router.post("/", async function (req, res) {
 	const { email, password } = req.body;
@@ -44,4 +46,6 @@ router.post("/", async function (req, res) {
 	res.json({ success: true });
 });
 
-module.exports = { router };
+export {
+	router
+}

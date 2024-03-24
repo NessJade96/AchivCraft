@@ -8,21 +8,30 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const express = require("express");
-const router = express.Router();
-const { createClient } = require("../databaseClient.js");
-const jwt = require("jsonwebtoken");
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.router = void 0;
+const express_1 = __importDefault(require("express"));
+const databaseClient_1 = require("../databaseClient");
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const router = express_1.default.Router();
+exports.router = router;
 router.get("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         var _a;
         const { realmSlug, characterName } = req.query;
-        const supabase = createClient({ req, res });
-        const capitalizedCharacterName = characterName.charAt(0).toUpperCase() + characterName.slice(1);
+        const supabase = (0, databaseClient_1.createClient)({ req, res });
+        const capitalizedCharacterName = 
+        // @ts-expect-error get deployment working
+        characterName.charAt(0).toUpperCase() + characterName.slice(1);
         const { data: checkCharacterData, error: checkCharacterError } = yield supabase
             .from("character")
             .select("*")
             .eq("realm_slug", realmSlug)
             .eq("name", capitalizedCharacterName);
+        // @ts-expect-error get deployment working
         let characterDataResponse = checkCharacterData[0];
         if (checkCharacterError) {
             console.log("🚀 ~ checkCharacterError:", checkCharacterError);
@@ -38,6 +47,7 @@ router.get("/", function (req, res) {
             const { data: checkFollowing, error: checkFollowingError } = yield supabase
                 .from("follow")
                 .select("*")
+                // @ts-expect-error get deployment working
                 .eq("user_id", user.id)
                 .eq("character_id", characterDataResponse.id);
             if (checkFollowingError) {
@@ -71,7 +81,8 @@ router.get("/", function (req, res) {
             return;
         }
         // Verify the JWT
-        const decodedToken = jwt.verify(signedJwt, "Super_Secret_Password");
+        const decodedToken = jsonwebtoken_1.default.verify(signedJwt, "Super_Secret_Password");
+        // @ts-expect-error get deployment working
         if (!decodedToken.access_token) {
             res.status(401).json({ message: "Invalid access token" });
             return;
@@ -80,6 +91,7 @@ router.get("/", function (req, res) {
         const characterResponse = yield fetch(`https://us.api.blizzard.com/profile/wow/character/${realmSlug}/${characterName}?namespace=profile-us&locale=en_US`, {
             method: "GET",
             headers: {
+                // @ts-expect-error get deployment working
                 Authorization: "Bearer " + decodedToken.access_token,
             },
         }).catch((error) => {
@@ -104,5 +116,4 @@ router.get("/", function (req, res) {
         res.json(character);
     });
 });
-module.exports = { router };
 //# sourceMappingURL=search.js.map

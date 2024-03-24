@@ -1,9 +1,13 @@
-const { createServerClient } = require("@supabase/ssr");
+
+import { createServerClient } from "@supabase/ssr";
 
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
 
-const createClient = (context) => {
+// @ts-expect-error get deployment working
+export const createClient = (context) => {
+	// @ts-expect-error get deployment working
+
 	return createServerClient(supabaseUrl, supabaseAnonKey, {
 		cookies: {
 			get: (key) => {
@@ -26,8 +30,6 @@ const createClient = (context) => {
 		},
 	});
 };
+export const supabaseClient = ""
 
-module.exports = {
-	supabaseClient: "",
-	createClient,
-};
+

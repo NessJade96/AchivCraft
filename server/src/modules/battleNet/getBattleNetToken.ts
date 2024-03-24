@@ -6,7 +6,7 @@ const credentials = btoa(
 const formData = new URLSearchParams();
 formData.append("grant_type", "client_credentials");
 
-async function getBattleNetToken() {
+export async function getBattleNetToken() {
 	const battleNetTokenResponse = await fetch(
 		"https://us.battle.net/oauth/token",
 		{
@@ -29,4 +29,3 @@ async function getBattleNetToken() {
 	return battleNetTokenJson;
 }
 
-module.exports = { getBattleNetToken };

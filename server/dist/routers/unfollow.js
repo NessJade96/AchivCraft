@@ -8,12 +8,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const express = require("express");
-const router = express.Router();
-const { createClient } = require("../databaseClient.js");
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.router = void 0;
+const express_1 = __importDefault(require("express"));
+const databaseClient_1 = require("../databaseClient");
+const router = express_1.default.Router();
+exports.router = router;
 router.post("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const supabase = createClient({ req, res });
+        const supabase = (0, databaseClient_1.createClient)({ req, res });
         const { followId } = req.body;
         if (!followId) {
             res.sendStatus(401);
@@ -28,6 +34,7 @@ router.post("/", function (req, res) {
             .from("follow")
             .delete()
             .eq("id", followId)
+            // @ts-expect-error get deployment working
             .eq("user_id", user.id);
         if (unfollowError) {
             console.log("🚀 ~ unFollowError:", unfollowError);
@@ -37,5 +44,4 @@ router.post("/", function (req, res) {
         res.json({ success: true });
     });
 });
-module.exports = { router };
 //# sourceMappingURL=unfollow.js.map

@@ -8,15 +8,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const express = require("express");
-const router = express.Router();
-const jwt = require("jsonwebtoken");
-const { getCharacterAchievements, } = require("../modules/battleNet/getCharacterAchievements");
-const { createClient } = require("../databaseClient.js");
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.router = void 0;
+const express_1 = __importDefault(require("express"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const getCharacterAchievements_1 = require("../modules/battleNet/getCharacterAchievements");
+const databaseClient_js_1 = require("../databaseClient.js");
+const router = express_1.default.Router();
+exports.router = router;
 router.post("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         var _a;
-        const supabase = createClient({ req, res });
+        const supabase = (0, databaseClient_js_1.createClient)({ req, res });
         const { data: { user }, error: userError, } = yield supabase.auth.getUser();
         if (userError) {
             console.log("🚀 ~ userError:", userError);
@@ -57,6 +63,7 @@ router.post("/", function (req, res) {
             if (characterError) {
                 return res.sendStatus(400);
             }
+            // @ts-expect-error get deployment working
             characterId = characterData[0].id;
             // Get all the achievements from wow api based on characterName and realmSlug
             // Retrieve the JWT from cookies
@@ -66,20 +73,25 @@ router.post("/", function (req, res) {
                 return;
             }
             // Verify the JWT
-            const decodedToken = jwt.verify(signedJwt, "Super_Secret_Password");
+            const decodedToken = jsonwebtoken_1.default.verify(signedJwt, "Super_Secret_Password");
+            // @ts-expect-error get deployment working
             if (!decodedToken.access_token) {
                 res.status(401).json({ message: "Invalid access token" });
                 return;
             }
-            const characterAchievementsResponse = yield getCharacterAchievements(req, res, decodedToken, characterData);
+            const characterAchievementsResponse = yield (0, getCharacterAchievements_1.getCharacterAchievements)(req, res, decodedToken, characterData);
             const characterAchievementsJSON = yield characterAchievementsResponse.json();
             // Loop through all achievements to format them so they are ready to be inserted into the DB
             const latestAchievements = characterAchievementsJSON.achievements.length > 100
                 ? characterAchievementsJSON.achievements.slice(-100)
                 : characterAchievementsJSON.achievements;
             console.log("🚀 ~ latestAchievements:", latestAchievements);
-            const latestAchievementWithTimestamp = latestAchievements.filter((achievement) => achievement.completed_timestamp);
-            const achievementRows = latestAchievementWithTimestamp.map((achievement) => {
+            const latestAchievementWithTimestamp = latestAchievements.filter(
+            // @ts-expect-error get deployment working
+            (achievement) => achievement.completed_timestamp);
+            const achievementRows = latestAchievementWithTimestamp.map(
+            // @ts-expect-error get deployment working
+            (achievement) => {
                 return {
                     name: achievement.achievement.name,
                     wow_api_id: achievement.id,
@@ -96,6 +108,7 @@ router.post("/", function (req, res) {
             }
         }
         const newFollow = {
+            // @ts-expect-error get deployment working
             user_id: user.id,
             character_id: characterId,
         };
@@ -103,13 +116,12 @@ router.post("/", function (req, res) {
             .from("follow")
             .insert(newFollow)
             .select("id");
+        // @ts-expect-error get deployment working
         const followID = followData[0].id;
-        console.log("🚀 ~ followID:", followID);
         if (followError) {
             return res.sendStatus(400);
         }
         res.json({ success: true, followID });
     });
 });
-module.exports = { router };
 //# sourceMappingURL=follow.js.map

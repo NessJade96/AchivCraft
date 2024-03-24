@@ -1,6 +1,8 @@
-const express = require("express");
+import express from "express";
+import { createClient } from "../databaseClient";
+
 const router = express.Router();
-const { createClient } = require("../databaseClient.js");
+
 
 router.post("/", async function (req, res) {
 	const supabase = createClient({ req, res });
@@ -27,6 +29,8 @@ router.post("/", async function (req, res) {
 		.from("follow")
 		.delete()
 		.eq("id", followId)
+		// @ts-expect-error get deployment working
+
 		.eq("user_id", user.id);
 
 	if (unfollowError) {
@@ -37,4 +41,6 @@ router.post("/", async function (req, res) {
 	res.json({ success: true });
 });
 
-module.exports = { router };
+export {
+	router
+}

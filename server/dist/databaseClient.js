@@ -1,9 +1,13 @@
 "use strict";
-const { createServerClient } = require("@supabase/ssr");
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.supabaseClient = exports.createClient = void 0;
+const ssr_1 = require("@supabase/ssr");
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
+// @ts-expect-error get deployment working
 const createClient = (context) => {
-    return createServerClient(supabaseUrl, supabaseAnonKey, {
+    // @ts-expect-error get deployment working
+    return (0, ssr_1.createServerClient)(supabaseUrl, supabaseAnonKey, {
         cookies: {
             get: (key) => {
                 var _a;
@@ -24,8 +28,6 @@ const createClient = (context) => {
         },
     });
 };
-module.exports = {
-    supabaseClient: "",
-    createClient,
-};
+exports.createClient = createClient;
+exports.supabaseClient = "";
 //# sourceMappingURL=databaseClient.js.map

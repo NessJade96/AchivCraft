@@ -4,14 +4,14 @@ const app = express();
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const { router: characterRouter } = require("./src/routers/character.js");
-const { router: followRouter } = require("./src/routers/follow.js");
-const { router: loginRouter } = require("./src/routers/login.js");
-const { router: logoutRouter } = require("./src/routers/logout.js");
-const { router: searchRouter } = require("./src/routers/search.js");
-const { router: signupRouter } = require("./src/routers/signup.js");
-const { router: unfollowRouter } = require("./src/routers/unfollow.js");
-const { router: healthRouter } = require("./src/routers/health.js");
+import { router as characterRouter } from "./src/routers/character";
+import { router as followRouter } from "./src/routers/follow";
+import { router as loginRouter } from "./src/routers/login";
+import { router as logoutRouter } from "./src/routers/logout";
+import { router as searchRouter } from "./src/routers/search";
+import { router as signupRouter } from "./src/routers/signup";
+import { router as unfollowRouter } from "./src/routers/unfollow";
+import { router as healthRouter } from "./src/routers/health";
 
 
 app.use(cookieParser());
