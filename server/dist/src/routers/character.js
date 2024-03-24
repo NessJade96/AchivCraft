@@ -21,11 +21,18 @@ const router = express_1.default.Router();
 exports.router = router;
 router.get("/achievement", function (req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log("🚀 ~ req:", req.cookies);
         const supabase = (0, databaseClient_1.createClient)({ req, res });
         const { data: { user }, error: userError, } = yield supabase.auth.getUser();
         if (userError) {
             console.log("🚀 ~ userError:", userError);
-            return res.sendStatus(400);
+            res.status(400);
+            res.json({
+                message: "no user found",
+                cookies: req.cookies
+            });
+            res.send();
+            return;
         }
         // On load we are going to fetch the last time a timestamp was updated within the last  5 mins
         const currentTime = new Date();
