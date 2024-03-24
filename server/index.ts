@@ -24,14 +24,14 @@ app.use(
 );
 app.use(bodyParser.json());
 
-app.use("/health", healthRouter);
-app.use("/character", characterRouter);
-app.use("/follow", followRouter);
-app.use("/login", loginRouter);
-app.use("/logout", logoutRouter);
-app.use("/search", searchRouter);
-app.use("/signup", signupRouter);
-app.use("/unfollow", unfollowRouter);
+app.use("/api/health", healthRouter);
+app.use("/api/character", characterRouter);
+app.use("/api/follow", followRouter);
+app.use("/api/login", loginRouter);
+app.use("/api/logout", logoutRouter);
+app.use("/api/search", searchRouter);
+app.use("/api/signup", signupRouter);
+app.use("/api/unfollow", unfollowRouter);
 
 app.get("*", (req, res) => {
     res.send("Error 404 Invalid Endpoint");

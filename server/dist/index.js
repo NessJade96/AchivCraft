@@ -24,14 +24,14 @@ app.use(cors({
     credentials: true,
 }));
 app.use(bodyParser.json());
-app.use("/health", health_1.router);
-app.use("/character", character_1.router);
-app.use("/follow", follow_1.router);
-app.use("/login", login_1.router);
-app.use("/logout", logout_1.router);
-app.use("/search", search_1.router);
-app.use("/signup", signup_1.router);
-app.use("/unfollow", unfollow_1.router);
+app.use("/api/health", health_1.router);
+app.use("/api/character", character_1.router);
+app.use("/api/follow", follow_1.router);
+app.use("/api/login", login_1.router);
+app.use("/api/logout", logout_1.router);
+app.use("/api/search", search_1.router);
+app.use("/api/signup", signup_1.router);
+app.use("/api/unfollow", unfollow_1.router);
 app.get("*", (req, res) => {
     res.send("Error 404 Invalid Endpoint");
 });
