@@ -20,7 +20,7 @@ export function Login() {
             required
             type="email"
             name="email"
-            defaultValue="vkellyy@gmail.com"
+            //defaultValue="vkellyy@gmail.com"
             placeholder="Enter your email"
           />
         </FormItem>
@@ -29,7 +29,7 @@ export function Login() {
             required
             type="password"
             name="password"
-            defaultValue="V_HHicBASx5_P2M"
+            //defaultValue="V_HHicBASx5_P2M"
             placeholder="********"
           />
         </FormItem>

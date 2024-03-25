@@ -37,8 +37,7 @@ export function Search() {
             required
             type="text"
             name="characterName"
-            //placeholder="Name"
-            defaultValue="astraxi"
+            placeholder="Name eg. astraxi"
           />
         </FormItem>
 

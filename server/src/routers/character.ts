@@ -30,8 +30,7 @@ router.get("/achievement", async function (req, res) {
 	}
 
 	// On load we are going to fetch the last time a timestamp was updated within the last  5 mins
-	const currentTime = new Date();
-	// @ts-expect-error get deployment working
+	const currentTime = new Date().getTime();
 
 	const fiveMinutesAgo = new Date(currentTime - 5 * 60000);
 	var date = new Date(fiveMinutesAgo);
