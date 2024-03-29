@@ -6,17 +6,25 @@ import { Card } from "../components/Card";
 
 export function Home() {
   const data: any = useLoaderData();
+  console.log("🚀 ~ Home ~ data:", data);
   const fetcher = useFetcher();
   return (
     <>
       <Text tag="h1">Recent Achievements</Text>
       <Link to="/search">Search new characters to follow</Link>
-      <Card
-        achievementName={JSON.stringify(data[0].name)}
-        characterName={JSON.stringify(data[0].character.name)}
-        completedTimestamp={JSON.stringify(data[0].completed_timestamp)}
-      />
-      <p>{JSON.stringify(data)}</p>
+      {data.map((achievement: any) => {
+        return (
+          <Card
+            achievementName={achievement.name}
+            characterName={achievement.character.name}
+            characterRace={achievement.character.race}
+            characterClass={achievement.character.class}
+            characterFaction={achievement.character.faction}
+            characterRealm={achievement.character.realm_slug}
+            completedTimestamp={achievement.completed_timestamp}
+          />
+        );
+      })}
       <fetcher.Form method="POST" action="/logout">
         <Button>Logout</Button>
       </fetcher.Form>

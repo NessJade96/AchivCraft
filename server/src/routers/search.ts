@@ -4,12 +4,11 @@ import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
-
 router.get("/", async function (req, res) {
 	const { realmSlug, characterName } = req.query;
 	const supabase = createClient({ req, res });
 	const capitalizedCharacterName =
-	// @ts-expect-error get deployment working
+		// @ts-expect-error get deployment working
 
 		characterName.charAt(0).toUpperCase() + characterName.slice(1);
 
@@ -19,7 +18,7 @@ router.get("/", async function (req, res) {
 			.select("*")
 			.eq("realm_slug", realmSlug)
 			.eq("name", capitalizedCharacterName);
-// @ts-expect-error get deployment working
+	// @ts-expect-error get deployment working
 
 	let characterDataResponse = checkCharacterData[0];
 
@@ -82,7 +81,7 @@ router.get("/", async function (req, res) {
 	}
 	// Verify the JWT
 	const decodedToken = jwt.verify(signedJwt, "Super_Secret_Password");
-// @ts-expect-error get deployment working
+	// @ts-expect-error get deployment working
 
 	if (!decodedToken.access_token) {
 		res.status(401).json({ message: "Invalid access token" });
@@ -106,8 +105,13 @@ router.get("/", async function (req, res) {
 	});
 
 	if (!characterResponse.ok) {
+		if (characterResponse.status === 404) {
+			res.json(null);
+			return;
+		}
 		throw new Error("Network response was not ok");
 	}
+
 	const characterJSON = await characterResponse.json();
 	const character = {
 		id: characterJSON.id,
@@ -119,12 +123,8 @@ router.get("/", async function (req, res) {
 		realmSlug: characterJSON.realm.slug,
 		isFollowing: false,
 	};
-	console.log(
-		"This character is not in the DB and the user is NOT following this character"
-	);
+
 	res.json(character);
 });
 
-export {
-	router
-}
+export { router };

@@ -15,6 +15,7 @@ import { Link } from "../components/Link";
 export function Search() {
   const data: any = useLoaderData();
   const fetcher = useFetcher();
+  console.log("🚀 ~ Search ~ data:", data);
   return (
     <div className="px-80">
       <div className="pt-40">
@@ -80,7 +81,9 @@ export function Search() {
             </fetcher.Form>
           )}
         </div>
-      ) : null}
+      ) : (
+        <Text className="text-red-600">Character Not Found</Text>
+      )}
       <div className="py-6">
         <Link to="/">Back to home</Link>
       </div>

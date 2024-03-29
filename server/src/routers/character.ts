@@ -1,17 +1,12 @@
-import express from "express"
-import jwt  from "jsonwebtoken";
-import {
-	getCharacterAchievements,
-}  from "../modules/battleNet/getCharacterAchievements"
-import { createClient }  from "../databaseClient"
-
-
+import express from "express";
+import jwt from "jsonwebtoken";
+import { getCharacterAchievements } from "../modules/battleNet/getCharacterAchievements";
+import { createClient } from "../databaseClient";
 
 const router = express.Router();
 
-
 router.get("/achievement", async function (req, res) {
-	console.log("🚀 ~ req:", req.cookies)
+	console.log("🚀 ~ req:", req.cookies);
 	const supabase = createClient({ req, res });
 	const {
 		data: { user },
@@ -23,8 +18,8 @@ router.get("/achievement", async function (req, res) {
 		res.status(400);
 		res.json({
 			message: "no user found",
-			cookies: req.cookies
-		})
+			cookies: req.cookies,
+		});
 		res.send();
 		return;
 	}
@@ -118,11 +113,11 @@ router.get("/achievement", async function (req, res) {
 					: characterAchievementsBody.achievements;
 
 			const latestAchievementsWithTimestamp = latestAchievements.filter(
-			// @ts-expect-error get deployment working
+				// @ts-expect-error get deployment working
 
 				(achievement) => achievement.completed_timestamp
 			);
-// @ts-expect-error get deployment working
+			// @ts-expect-error get deployment working
 
 			return latestAchievementsWithTimestamp.map((achievement) => {
 				return {
@@ -167,13 +162,16 @@ router.get("/achievement", async function (req, res) {
 		name,
 		achievement_points,
 		realm_slug,
+		faction, 
+		race, 
+		class,
 		follow!inner (
 			user_id
 		)
     )
 	
   `
-			)// @ts-expect-error get deployment working
+			) // @ts-expect-error get deployment working
 
 			.eq("character.follow.user_id", user.id)
 			.order("completed_timestamp", { ascending: false });
@@ -185,7 +183,4 @@ router.get("/achievement", async function (req, res) {
 	res.json(characterAchievementData);
 });
 
-export {
-	router
-}
-
+export { router };
