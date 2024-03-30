@@ -9,39 +9,45 @@ import { Login, action as loginAction } from "./pages/Login.tsx";
 import { action as logoutAction } from "./pages/Logout.tsx";
 import { Signup, action as signupAction } from "./pages/Signup.tsx";
 import { Search, loader as searchLoader } from "./pages/Search.tsx";
+import { AuthLayout } from "./pages/AuthLayout.tsx";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Home />,
-    loader: homeLoader,
-  },
-  {
-    path: "/login",
-    element: <Login />,
-    action: loginAction,
-  },
-  {
-    path: "/signup",
-    element: <Signup />,
-    action: signupAction,
-  },
-  {
-    path: "/search",
-    element: <Search />,
-    loader: searchLoader,
-  },
-  {
-    path: "/follow",
-    action: followAction,
-  },
-  {
-    path: "/unfollow",
-    action: unfollowAction,
-  },
-  {
-    path: "/logout",
-    action: logoutAction,
+    element: <AuthLayout />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+        loader: homeLoader,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+        action: loginAction,
+      },
+      {
+        path: "/signup",
+        element: <Signup />,
+        action: signupAction,
+      },
+      {
+        path: "/search",
+        element: <Search />,
+        loader: searchLoader,
+      },
+      {
+        path: "/follow",
+        action: followAction,
+      },
+      {
+        path: "/unfollow",
+        action: unfollowAction,
+      },
+      {
+        path: "/logout",
+        action: logoutAction,
+      },
+    ],
   },
 ]);
 

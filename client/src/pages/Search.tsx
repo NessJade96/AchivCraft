@@ -10,7 +10,6 @@ import { Text } from "../components/Text";
 import { FormItem } from "../components/FormItem";
 import { Select } from "../components/Select";
 import { Button } from "../components/Button";
-import { Link } from "../components/Link";
 
 export function Search() {
   const data: any = useLoaderData();
@@ -84,9 +83,6 @@ export function Search() {
       ) : (
         <Text className="text-red-600">Character Not Found</Text>
       )}
-      <div className="py-6">
-        <Link to="/">Back to home</Link>
-      </div>
     </div>
   );
 }

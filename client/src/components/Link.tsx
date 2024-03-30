@@ -1,5 +1,18 @@
-import { Link as ReactRouterLink, LinkProps } from "react-router-dom";
+import {
+  Link as ReactRouterLink,
+  LinkProps as ReactRouterLinkProps,
+} from "react-router-dom";
 
-export function Link(props: LinkProps) {
-  return <ReactRouterLink className="text-purple-600 font-medium" {...props} />;
+type LinkProps = ReactRouterLinkProps & {
+  variant?: "button" | "text";
+};
+
+const variants = {
+  button:
+    "bg-purple-600 rounded-lg py-2 text-white font-medium px-3 inline-block",
+  text: " rounded-lg py-2 text-black font-medium px-3 inline-block",
+};
+
+export function Link({ variant = "text", ...props }: LinkProps) {
+  return <ReactRouterLink className={variants[variant]} {...props} />;
 }
