@@ -37,18 +37,20 @@ export function Card({
     })
     .replace(/\//g, "-");
   return (
-    <div className="border rounded-lg w-1/2 py-2 px-3">
-      <div>{logos[characterFaction]}</div>
-      <div>
-        <div>
-          <Text>{characterName}</Text>
-          {realm}
+    <div className="bg-purple-50 border border-purple-300 rounded-lg py-2 px-4 flex items-center gap-8">
+      <div className="min-w-16">{logos[characterFaction]}</div>
+      <div className="">
+        <div className="flex gap-2">
+          <Text className="text-xl font-medium">{characterName}</Text>
+          <Text className="text-gray-500 text-xl">{realm}</Text>
         </div>
-        <Text>
+        <Text className="text-gray-500">
           {characterRace} {characterClass}
         </Text>
-        <Text>{achievementName}</Text>
-        <Text>{formattedDate}</Text>
+        <Text className="text-xl font-medium text-purple-800 py-4">
+          {achievementName}
+        </Text>
+        <Text className="text-gray-500 self-center">{formattedDate}</Text>
       </div>
     </div>
   );

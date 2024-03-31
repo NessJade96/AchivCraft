@@ -16,7 +16,7 @@ export function Search() {
   const fetcher = useFetcher();
   console.log("🚀 ~ Search ~ data:", data);
   return (
-    <div className="px-80">
+    <div className="flex justify-center flex-col gap-4 max-w-2xl min-w-96">
       <div className="pt-40">
         <Text tag="h1">Search characters</Text>
       </div>
@@ -30,6 +30,7 @@ export function Search() {
           <Select required name="realmSlug">
             <option value="frostmourne">Frostmourne</option>
             <option value="silver-hand">Silver Hand</option>
+            <option value="bleeding-hollow">Bleeding Hollow</option>
           </Select>
         </FormItem>
         <FormItem label="Characters Name:">
@@ -103,7 +104,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     if (!searchResponse.ok) {
       return redirect("/login");
     }
-    console.log(searchResponse);
     return searchResponse;
   }
   return null;

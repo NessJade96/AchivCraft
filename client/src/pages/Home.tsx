@@ -7,23 +7,24 @@ export function Home() {
   const data: any = useLoaderData();
   return (
     <>
-      <Text tag="h1">Recent Achievements</Text>
-      <Link variant="text" to="/search">
-        Search new characters to follow
-      </Link>
-      {data.map((achievement: any) => {
-        return (
-          <Card
-            achievementName={achievement.name}
-            characterName={achievement.character.name}
-            characterRace={achievement.character.race}
-            characterClass={achievement.character.class}
-            characterFaction={achievement.character.faction}
-            characterRealm={achievement.character.realm_slug}
-            completedTimestamp={achievement.completed_timestamp}
-          />
-        );
-      })}
+      <div className="p-6">
+        <Text tag="h1">Recent Achievements</Text>
+      </div>
+      <div className="flex justify-center flex-col gap-4 max-w-2xl min-w-96">
+        {data.map((achievement: any) => {
+          return (
+            <Card
+              achievementName={achievement.name}
+              characterName={achievement.character.name}
+              characterRace={achievement.character.race}
+              characterClass={achievement.character.class}
+              characterFaction={achievement.character.faction}
+              characterRealm={achievement.character.realm_slug}
+              completedTimestamp={achievement.completed_timestamp}
+            />
+          );
+        })}
+      </div>
     </>
   );
 }
@@ -38,6 +39,5 @@ export const loader = async () => {
   if (!characterResponse.ok) {
     return redirect("/login");
   }
-  console.log("characterResponse", characterResponse);
   return characterResponse;
 };
