@@ -22,7 +22,7 @@ export function AuthLayout() {
         </nav>
         <div className="p-6 ml-auto flex gap-2">
           <Link variant="text" to="/login">
-            Sign in
+            Log in
           </Link>
           <Link variant="button" to="/signup">
             Sign up

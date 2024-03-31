@@ -1,15 +1,17 @@
 import { Text } from "../components/Text";
 import alliance from "../assets/Alliance.png";
 import horde from "../assets/Horde.png";
+import { Achievement } from "./Achievement";
 
 type CardProps = {
-  achievementName: string;
+  achievementName?: string;
   characterName: string;
-  completedTimestamp: string;
+  completedTimestamp?: string;
   characterRace: string;
   characterClass: string;
   characterFaction: "Alliance" | "Horde";
   characterRealm: string;
+  achievementPoints?: string;
 };
 
 const logos = {
@@ -24,7 +26,7 @@ export function Card({
   characterFaction,
   characterClass,
   characterRace,
-  characterRealm,
+  characterRealm, achievementPoints
 }: CardProps) {
   const realm =
     characterRealm.charAt(0).toUpperCase() + characterRealm.slice(1);
@@ -47,10 +49,14 @@ export function Card({
         <Text className="text-gray-500">
           {characterRace} {characterClass}
         </Text>
-        <Text className="text-xl font-medium text-purple-800 py-4">
-          {achievementName}
-        </Text>
-        <Text className="text-gray-500 self-center">{formattedDate}</Text>
+        {achievementName ? (
+          <Achievement
+            achievementName={achievementName}
+            completedTimestamp={formattedDate}
+          />
+        ) : <Text className="text-xl font-medium text-purple-800 py-4">
+        {achievementPoints}
+      </Text>}
       </div>
     </div>
   );

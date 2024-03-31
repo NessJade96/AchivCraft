@@ -10,6 +10,7 @@ import { Text } from "../components/Text";
 import { FormItem } from "../components/FormItem";
 import { Select } from "../components/Select";
 import { Button } from "../components/Button";
+import { Card } from "../components/Card";
 
 export function Search() {
   const data: any = useLoaderData();
@@ -22,7 +23,7 @@ export function Search() {
       </div>
       <div className="py-8">
         <Text tag="h2">
-          Follow your frineds by entering their charcter details below
+          Follow your friends by entering their charcter details below
         </Text>
       </div>
       <Form method="GET">
@@ -50,15 +51,15 @@ export function Search() {
       </Form>
       {data ? (
         <div>
-          <Text tag="h2">Search Results:</Text>
-          <ul>
-            <li>Realm: {data.realmSlug}</li>
-            <li>Name: {data.name}</li>
-            <li>Faction: {data.faction}</li>
-            <li>Race: {data.race}</li>
-            <li>Class: {data.class}</li>
-            <li>Achievement Points: {data.achievementPoints}</li>
-          </ul>
+          <Text className="text-purple-800 text-center text-2xl py-4">Search Results:</Text>
+          <Card
+            characterName={data.name}
+            characterRace={data.race}
+            characterClass={data.class}
+            characterFaction={data.faction}
+            characterRealm={data.realmSlug}
+            achievementPoints={data.achievementPoints}
+          />
           {data.isFollowing ? (
             <fetcher.Form method="POST" action="/unfollow">
               <Button>Unfollow {data.name}</Button>
@@ -66,7 +67,10 @@ export function Search() {
             </fetcher.Form>
           ) : (
             <fetcher.Form method="POST" action="/follow">
+              <div className="py-6">
+
               <Button>Follow {data.name}</Button>
+              </div>
               <input name="id" value={data.id} type="hidden" />
               <input name="name" value={data.name} type="hidden" />
               <input name="faction" value={data.faction} type="hidden" />
