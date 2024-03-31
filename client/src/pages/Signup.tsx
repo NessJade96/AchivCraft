@@ -8,7 +8,7 @@ import { FormItem } from "../components/FormItem";
 export function Signup() {
   const data = useActionData();
   return (
-    <div className="flex justify-center flex-col gap-4 max-w-2xl min-w-96">
+    <>
       <div className="pt-40">
         <Text tag="h1">Sign up to create an account</Text>
       </div>
@@ -42,7 +42,7 @@ export function Signup() {
         <Link to="/login"> Sign in</Link>
       </p>
       {JSON.stringify(data)}
-    </div>
+    </>
   );
 }
 

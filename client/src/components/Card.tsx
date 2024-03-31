@@ -6,7 +6,7 @@ import { Achievement } from "./Achievement";
 type CardProps = {
   achievementName?: string;
   characterName: string;
-  completedTimestamp?: string;
+  completedTimestamp?: string ;
   characterRace: string;
   characterClass: string;
   characterFaction: "Alliance" | "Horde";
@@ -26,20 +26,13 @@ export function Card({
   characterFaction,
   characterClass,
   characterRace,
-  characterRealm, achievementPoints
+  characterRealm,
+  achievementPoints,
 }: CardProps) {
   const realm =
     characterRealm.charAt(0).toUpperCase() + characterRealm.slice(1);
-  const achievementTimestamp = new Date(completedTimestamp);
-  const formattedDate = achievementTimestamp
-    .toLocaleDateString("en-AU", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    })
-    .replace(/\//g, "-");
   return (
-    <div className="bg-purple-50 border border-purple-300 rounded-lg py-2 px-4 flex items-center gap-8">
+    <div className="bg-purple-50 border border-purple-300 rounded-lg py-2 px-4 flex items-center gap-8 w-full">
       <div className="min-w-16">{logos[characterFaction]}</div>
       <div className="">
         <div className="flex gap-2">
@@ -49,14 +42,16 @@ export function Card({
         <Text className="text-gray-500">
           {characterRace} {characterClass}
         </Text>
-        {achievementName ? (
+        {achievementName && completedTimestamp ? (
           <Achievement
             achievementName={achievementName}
-            completedTimestamp={formattedDate}
+            completedTimestamp={completedTimestamp}
           />
-        ) : <Text className="text-xl font-medium text-purple-800 py-4">
-        {achievementPoints}
-      </Text>}
+        ) : (
+          <Text className="text-xl font-medium text-purple-800 py-4">
+            {achievementPoints}
+          </Text>
+        )}
       </div>
     </div>
   );

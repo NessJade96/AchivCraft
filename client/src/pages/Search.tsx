@@ -15,9 +15,8 @@ import { Card } from "../components/Card";
 export function Search() {
   const data: any = useLoaderData();
   const fetcher = useFetcher();
-  console.log("🚀 ~ Search ~ data:", data);
   return (
-    <div className="flex justify-center flex-col gap-4 max-w-2xl min-w-96">
+    <>
       <div className="pt-40">
         <Text tag="h1">Search characters</Text>
       </div>
@@ -51,7 +50,9 @@ export function Search() {
       </Form>
       {data ? (
         <div>
-          <Text className="text-purple-800 text-center text-2xl py-4">Search Results:</Text>
+          <Text className="text-purple-800 text-center text-2xl py-4">
+            Search Results:
+          </Text>
           <Card
             characterName={data.name}
             characterRace={data.race}
@@ -68,8 +69,7 @@ export function Search() {
           ) : (
             <fetcher.Form method="POST" action="/follow">
               <div className="py-6">
-
-              <Button>Follow {data.name}</Button>
+                <Button>Follow {data.name}</Button>
               </div>
               <input name="id" value={data.id} type="hidden" />
               <input name="name" value={data.name} type="hidden" />
@@ -88,7 +88,7 @@ export function Search() {
       ) : (
         <Text className="text-red-600">Character Not Found</Text>
       )}
-    </div>
+    </>
   );
 }
 

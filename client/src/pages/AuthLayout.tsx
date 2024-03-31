@@ -32,7 +32,7 @@ export function AuthLayout() {
           </Form>
         </div>
       </div>
-      <main>
+      <main className="max-w-2xl mx-auto">
         <Outlet></Outlet>
       </main>
     </>

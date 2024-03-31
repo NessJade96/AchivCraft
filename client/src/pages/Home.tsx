@@ -1,6 +1,5 @@
 import { redirect, useLoaderData } from "react-router-dom";
 import { Text } from "../components/Text";
-import { Link } from "../components/Link";
 import { Card } from "../components/Card";
 
 export function Home() {
@@ -10,7 +9,7 @@ export function Home() {
       <div className="p-6">
         <Text tag="h1">Recent Achievements</Text>
       </div>
-      <div className="flex justify-center flex-col gap-4 max-w-2xl min-w-96">
+      <div className="flex flex-col gap-4 ">
         {data.map((achievement: any) => {
           return (
             <Card
