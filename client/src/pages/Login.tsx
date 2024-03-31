@@ -7,7 +7,7 @@ import { FormItem } from "../components/FormItem";
 
 export function Login() {
   return (
-    <div className="px-80 ">
+    <div className="flex justify-center flex-col gap-4 max-w-2xl min-w-96">
       <div className="pt-40">
         <Text tag="h1">Log in to your account</Text>
       </div>
