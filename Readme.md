@@ -26,7 +26,7 @@ React, Typescript, Node.js, Express.js, Tailwind, Vite, JWT, react-dom, react-ro
 
 ![Sign up Page](./client/src/assets/SignupPage.png)
 
-### Home: Needs styling! **to do**
+### Home:
 
 ![Unstyled Home Page](./client/src/assets/HomePage.png)
 
@@ -115,5 +115,12 @@ Added:
 - error handling for queries to check if the user is logged in
 - Then render characters achievements to the home page / timeline (updates Achievements from Blizzard API every 5 mins if refreshed)
 - design ideas (figma)
+
+### Future development
+
+- Responsive styling
+- Loading spinner
+- Uplift typescript types
+- redeploy to vercel as render is slow...
 
 Thank you, Vanessa Bloom <(^.^)>
