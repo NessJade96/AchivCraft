@@ -6,7 +6,7 @@ import { Achievement } from "./Achievement";
 type CardProps = {
   achievementName?: string;
   characterName: string;
-  completedTimestamp?: string ;
+  completedTimestamp?: string;
   characterRace: string;
   characterClass: string;
   characterFaction: "Alliance" | "Horde";

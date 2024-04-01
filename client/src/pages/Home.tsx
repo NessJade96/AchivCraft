@@ -11,6 +11,8 @@ export function Home() {
       </div>
       <div className="flex flex-col gap-4 ">
         {data.map((achievement: any) => {
+          const achievementKey = `
+            ${achievement.character_id}-${achievement.wow_api_id}`;
           return (
             <Card
               achievementName={achievement.name}
@@ -20,6 +22,7 @@ export function Home() {
               characterFaction={achievement.character.faction}
               characterRealm={achievement.character.realm_slug}
               completedTimestamp={achievement.completed_timestamp}
+              key={achievementKey}
             />
           );
         })}

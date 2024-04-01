@@ -1,4 +1,9 @@
-import { ActionFunctionArgs, Form, redirect } from "react-router-dom";
+import {
+  ActionFunctionArgs,
+  Form,
+  redirect,
+  useActionData,
+} from "react-router-dom";
 import { Button } from "../components/Button";
 import { Input } from "../components/Input";
 import { Link } from "../components/Link";
@@ -6,6 +11,8 @@ import { Text } from "../components/Text";
 import { FormItem } from "../components/FormItem";
 
 export function Login() {
+  const loginResponse = useActionData();
+  console.log("🚀 ~ Login ~ loginResponse:", loginResponse);
   return (
     <>
       <div className="pt-40">
@@ -33,6 +40,11 @@ export function Login() {
             //placeholder="********"
           />
         </FormItem>
+        {loginResponse === "Unauthorized" ? (
+          <Text className="text-red-600 py-3">
+            Incorrect email or password, please try again
+          </Text>
+        ) : null}
         <div className="py-6">
           <Button>Login</Button>
         </div>
@@ -61,9 +73,7 @@ export async function action({ request }: ActionFunctionArgs) {
       password,
     }),
   });
-  console.log("🚀 ~ action ~ loginResponse:", loginResponse);
   if (loginResponse.ok) {
-    console.log("heelo");
     return redirect("/");
   }
   return loginResponse;

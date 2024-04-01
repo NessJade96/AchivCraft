@@ -10,7 +10,7 @@ import { action as logoutAction } from "./pages/Logout.tsx";
 import { Signup, action as signupAction } from "./pages/Signup.tsx";
 import { Search, loader as searchLoader } from "./pages/Search.tsx";
 import { AuthLayout, loader as authLoader } from "./pages/AuthLayout.tsx";
-import { PublicLayout } from "./pages/PublicLayout.tsx";
+import { PublicLayout, loader as publicLoader } from "./pages/PublicLayout.tsx";
 
 const router = createBrowserRouter([
   {
@@ -44,6 +44,7 @@ const router = createBrowserRouter([
   },
   {
     element: <PublicLayout />,
+    loader: publicLoader,
     children: [
       {
         path: "/login",

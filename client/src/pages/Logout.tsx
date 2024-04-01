@@ -8,7 +8,6 @@ export async function action() {
       "Content-Type": "application/json",
     },
   });
-  console.log("🚀 ~ action ~ logoutResponse:", logoutResponse);
   if (logoutResponse.ok) {
     return redirect("/login");
   }

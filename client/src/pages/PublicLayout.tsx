@@ -1,6 +1,6 @@
 import { Text } from "../components/Text";
 import { Link } from "../components/Link";
-import { Outlet } from "react-router-dom";
+import { Outlet, redirect } from "react-router-dom";
 
 export function PublicLayout() {
   return (
@@ -24,3 +24,14 @@ export function PublicLayout() {
     </>
   );
 }
+
+export const loader = async () => {
+  const isLoggedIn = await fetch(`${import.meta.env.VITE_API_URL}/user`, {
+    credentials: "include",
+  });
+
+  if (isLoggedIn.ok) {
+    return redirect("/");
+  }
+  return isLoggedIn;
+};

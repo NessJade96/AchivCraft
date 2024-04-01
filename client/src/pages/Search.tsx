@@ -11,6 +11,7 @@ import { FormItem } from "../components/FormItem";
 import { Select } from "../components/Select";
 import { Button } from "../components/Button";
 import { Card } from "../components/Card";
+import { Link } from "../components/Link";
 
 export function Search() {
   const data: any = useLoaderData();
@@ -33,6 +34,7 @@ export function Search() {
             required
             name="realmSlug"
             defaultValue={params.get("realmSlug") ?? ""}
+            key={params.get("realmSlug") ?? ""}
           >
             <option value="frostmourne">Frostmourne</option>
             <option value="silver-hand">Silver Hand</option>
@@ -46,14 +48,28 @@ export function Search() {
             name="characterName"
             placeholder="Name eg. astraxi"
             defaultValue={params.get("characterName") ?? ""}
+            key={params.get("characterName") ?? ""}
           />
         </FormItem>
+        <div className="flex items-center">
+          <Text className="text-gray-500">Not sure what to search? Try:</Text>
+          <Link to="/search?realmSlug=frostmourne&characterName=astraxi&intent=search">
+            Astraxi
+          </Link>
+          <Link to="/search?realmSlug=bleeding-hollow&characterName=bullshifts&intent=search">
+            Bullshifts
+          </Link>
+          <Link to="/search?realmSlug=silver-hand&characterName=rustycogs&intent=search">
+            Rustycogs
+          </Link>
+        </div>
         <div className="py-6">
           <Button name="intent" value="search">
             Search
           </Button>
         </div>
       </Form>
+
       {data ? (
         typeof data === "string" ? (
           <Text className="text-red-600">Character Not Found</Text>
@@ -72,8 +88,10 @@ export function Search() {
             />
             {data.isFollowing ? (
               <fetcher.Form method="POST" action="/unfollow">
-                <Button>Unfollow {data.name}</Button>
-                <input name="followId" value={data.followId} type="hidden" />
+                <div className="py-6">
+                  <Button>Unfollow {data.name}</Button>
+                  <input name="followId" value={data.followId} type="hidden" />
+                </div>
               </fetcher.Form>
             ) : (
               <fetcher.Form method="POST" action="/follow">
