@@ -39,7 +39,7 @@ export function Signup() {
       </Form>
       <p className="text-center py-6 text-gray-500">
         If you already have an account?
-        <Link to="/login"> Sign in</Link>
+        <Link to="/login">Log in</Link>
       </p>
       {JSON.stringify(data)}
     </>
