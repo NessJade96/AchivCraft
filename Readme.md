@@ -1,6 +1,7 @@
 # AchivCraft
 
 Hosted on Render URL: [AchivCraft](https://achivcraft-1.onrender.com/login)
+Due to being hosted on the free tier of Render the application can take awhile to load. If this happens wait a minute or so and refresh the page :) thank you!
 
 ## Description:
 
