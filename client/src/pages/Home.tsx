@@ -4,28 +4,33 @@ import { Card } from "../components/Card";
 
 export function Home() {
   const data: any = useLoaderData();
+  console.log("🚀 ~ Home ~ data:", data);
   return (
     <>
       <div className="p-6">
         <Text tag="h1">Recent Achievements</Text>
       </div>
       <div className="flex flex-col gap-4 ">
-        {data.map((achievement: any) => {
-          const achievementKey = `
+        {data.length > 0 ? (
+          data.map((achievement: any) => {
+            const achievementKey = `
             ${achievement.character_id}-${achievement.wow_api_id}`;
-          return (
-            <Card
-              achievementName={achievement.name}
-              characterName={achievement.character.name}
-              characterRace={achievement.character.race}
-              characterClass={achievement.character.class}
-              characterFaction={achievement.character.faction}
-              characterRealm={achievement.character.realm_slug}
-              completedTimestamp={achievement.completed_timestamp}
-              key={achievementKey}
-            />
-          );
-        })}
+            return (
+              <Card
+                achievementName={achievement.name}
+                characterName={achievement.character.name}
+                characterRace={achievement.character.race}
+                characterClass={achievement.character.class}
+                characterFaction={achievement.character.faction}
+                characterRealm={achievement.character.realm_slug}
+                completedTimestamp={achievement.completed_timestamp}
+                key={achievementKey}
+              />
+            );
+          })
+        ) : (
+          <Text className="text-center text-gray-500">Follow characters to see recent achievements</Text>
+        )}
       </div>
     </>
   );

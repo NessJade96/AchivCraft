@@ -1,9 +1,17 @@
 import { Text } from "../components/Text";
 import { Button } from "../components/Button";
 import { Link } from "../components/Link";
-import { Form, Outlet, redirect } from "react-router-dom";
+import { Form, Outlet, redirect, useNavigation } from "react-router-dom";
 
 export function AuthLayout() {
+  const navigation = useNavigation();
+
+  const buttonText =
+    navigation.state === "submitting"
+      ? "Logging out..."
+      : navigation.state === "loading"
+      ? "Logging out..."
+      : "Logout";
   return (
     <>
       <div className="border flex items-center">
@@ -22,7 +30,7 @@ export function AuthLayout() {
         </nav>
         <div className="p-6 ml-auto flex gap-2">
           <Form method="POST" action="/logout">
-            <Button>Logout</Button>
+            <Button>{buttonText}</Button>
           </Form>
         </div>
       </div>

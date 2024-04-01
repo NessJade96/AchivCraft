@@ -4,6 +4,7 @@ import {
   useLoaderData,
   useFetcher,
   useLocation,
+  useNavigation,
 } from "react-router-dom";
 import { Input } from "../components/Input";
 import { Text } from "../components/Text";
@@ -18,6 +19,31 @@ export function Search() {
   const fetcher = useFetcher();
   const location = useLocation();
   const params = new URLSearchParams(location.search);
+  const navigation = useNavigation();
+  console.log("🚀 ~ Search ~ navigation:", navigation);
+
+  const searchButtonText =
+    navigation.state === "submitting"
+      ? "Searching..."
+      : navigation.state === "loading" &&
+        navigation.location?.pathname === "/search"
+      ? "Searching..."
+      : "Search";
+
+  const followButtonText =
+    fetcher.state === "submitting"
+      ? "Following..."
+      : fetcher.state === "loading"
+      ? "Following..."
+      : "Follow";
+
+  const unfollowButtonText =
+    fetcher.state === "submitting"
+      ? "Unfollowing..."
+      : fetcher.state === "loading"
+      ? "Unfollowing..."
+      : "Unfollow";
+
   return (
     <>
       <div className="pt-40">
@@ -65,7 +91,7 @@ export function Search() {
         </div>
         <div className="py-6">
           <Button name="intent" value="search">
-            Search
+            {searchButtonText}
           </Button>
         </div>
       </Form>
@@ -89,14 +115,18 @@ export function Search() {
             {data.isFollowing ? (
               <fetcher.Form method="POST" action="/unfollow">
                 <div className="py-6">
-                  <Button>Unfollow {data.name}</Button>
+                  <Button>
+                    {unfollowButtonText} {data.name}
+                  </Button>
                   <input name="followId" value={data.followId} type="hidden" />
                 </div>
               </fetcher.Form>
             ) : (
               <fetcher.Form method="POST" action="/follow">
                 <div className="py-6">
-                  <Button>Follow {data.name}</Button>
+                  <Button>
+                    {followButtonText} {data.name}
+                  </Button>
                 </div>
                 <input name="id" value={data.id} type="hidden" />
                 <input name="name" value={data.name} type="hidden" />

@@ -1,10 +1,9 @@
 import express from "express";
-import { supabaseClient } from "../databaseClient";
+import { createClient } from "../databaseClient";
 import jwt from "jsonwebtoken";
-import {getBattleNetToken} from "../modules/battleNet/getBattleNetToken";
+import { getBattleNetToken } from "../modules/battleNet/getBattleNetToken";
 
 const router = express.Router();
-
 
 router.post("/", async function (req, res) {
 	const { email, password } = req.body;
@@ -13,12 +12,10 @@ router.post("/", async function (req, res) {
 		res.sendStatus(401);
 		return;
 	}
-
+	const supabase = createClient({ req, res });
 	const {
 		data: { user },
-		// @ts-expect-error get deployment working
-
-	} = await supabaseClient.auth.signUp({
+	} = await supabase.auth.signUp({
 		email,
 		password,
 	});
@@ -46,6 +43,4 @@ router.post("/", async function (req, res) {
 	res.json({ success: true });
 });
 
-export  {
-	router
-}
+export { router };

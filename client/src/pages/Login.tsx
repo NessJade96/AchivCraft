@@ -3,6 +3,7 @@ import {
   Form,
   redirect,
   useActionData,
+  useNavigation,
 } from "react-router-dom";
 import { Button } from "../components/Button";
 import { Input } from "../components/Input";
@@ -12,7 +13,14 @@ import { FormItem } from "../components/FormItem";
 
 export function Login() {
   const loginResponse = useActionData();
-  console.log("🚀 ~ Login ~ loginResponse:", loginResponse);
+  const navigation = useNavigation();
+
+  const buttonText =
+    navigation.state === "submitting"
+      ? "Logging in..."
+      : navigation.state === "loading"
+      ? "Loading Achievements!"
+      : "Login";
   return (
     <>
       <div className="pt-40">
@@ -27,8 +35,8 @@ export function Login() {
             required
             type="email"
             name="email"
-            //defaultValue="vkellyy@gmail.com"
-            placeholder="Enter your email"
+            defaultValue="vkellyy@gmail.com"
+            //placeholder="Enter your email"
           />
         </FormItem>
         <FormItem label="Password">
@@ -36,8 +44,8 @@ export function Login() {
             required
             type="password"
             name="password"
-            //defaultValue="V_HHicBASx5_P2M"
-            placeholder="********"
+            defaultValue="V_HHicBASx5_P2M"
+            //placeholder="********"
           />
         </FormItem>
         {loginResponse === "Unauthorized" ? (
@@ -46,7 +54,7 @@ export function Login() {
           </Text>
         ) : null}
         <div className="py-6">
-          <Button>Login</Button>
+          <Button>{buttonText}</Button>
         </div>
       </Form>
       <p className="text-center py-6 text-gray-500">

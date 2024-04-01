@@ -1,4 +1,10 @@
-import { ActionFunctionArgs, Form, useActionData } from "react-router-dom";
+import {
+  ActionFunctionArgs,
+  Form,
+  redirect,
+  useActionData,
+  useNavigation,
+} from "react-router-dom";
 import { Input } from "../components/Input";
 import { Button } from "../components/Button";
 import { Link } from "../components/Link";
@@ -7,6 +13,14 @@ import { FormItem } from "../components/FormItem";
 
 export function Signup() {
   const data = useActionData();
+  const navigation = useNavigation();
+
+  const buttonText =
+    navigation.state === "submitting"
+      ? "Creating..."
+      : navigation.state === "loading"
+      ? "Created!"
+      : "Create Account";
   return (
     <>
       <div className="pt-40">
@@ -34,7 +48,7 @@ export function Signup() {
         </FormItem>
 
         <div className="py-6">
-          <Button>Create Account</Button>
+          <Button>{buttonText}</Button>
         </div>
       </Form>
       <p className="text-center py-6 text-gray-500">
@@ -50,8 +64,7 @@ export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
   const email = formData.get("email");
   const password = formData.get("password");
-
-  fetch(`${import.meta.env.VITE_API_URL}/signup`, {
+  const signupResponse = await fetch(`${import.meta.env.VITE_API_URL}/signup`, {
     method: "POST",
     credentials: "include",
     headers: {
@@ -62,5 +75,8 @@ export async function action({ request }: ActionFunctionArgs) {
       password,
     }),
   });
-  return null;
+  if (signupResponse.ok) {
+    return redirect("/");
+  }
+  return signupResponse;
 }
