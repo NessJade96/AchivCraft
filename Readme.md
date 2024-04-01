@@ -1,5 +1,7 @@
 # AchivCraft
 
+Hosted on Render URL: [AchivCraft](https://achivcraft-1.onrender.com/login)
+
 ## Description:
 
 This independent project is a real-world full-stack application leveraging the Blizzard public API to fetch World of Warcraft character achievements. It’s a CRUD application employing supabase for cloud-based data storage. Users can register, search, follow, and unfollow characters. Upon visiting the homepage, achievements of followed characters are displayed on a timeline and refetched after a stale time of 5 minutes.
