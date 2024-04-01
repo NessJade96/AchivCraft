@@ -9,26 +9,19 @@ import { Login, action as loginAction } from "./pages/Login.tsx";
 import { action as logoutAction } from "./pages/Logout.tsx";
 import { Signup, action as signupAction } from "./pages/Signup.tsx";
 import { Search, loader as searchLoader } from "./pages/Search.tsx";
-import { AuthLayout } from "./pages/AuthLayout.tsx";
+import { AuthLayout, loader as authLoader } from "./pages/AuthLayout.tsx";
+import { PublicLayout } from "./pages/PublicLayout.tsx";
 
 const router = createBrowserRouter([
   {
     element: <AuthLayout />,
+    loader: authLoader,
     children: [
       {
         path: "/",
         element: <Home />,
         loader: homeLoader,
-      },
-      {
-        path: "/login",
-        element: <Login />,
-        action: loginAction,
-      },
-      {
-        path: "/signup",
-        element: <Signup />,
-        action: signupAction,
+        index: true,
       },
       {
         path: "/search",
@@ -46,6 +39,21 @@ const router = createBrowserRouter([
       {
         path: "/logout",
         action: logoutAction,
+      },
+    ],
+  },
+  {
+    element: <PublicLayout />,
+    children: [
+      {
+        path: "/login",
+        element: <Login />,
+        action: loginAction,
+      },
+      {
+        path: "/signup",
+        element: <Signup />,
+        action: signupAction,
       },
     ],
   },

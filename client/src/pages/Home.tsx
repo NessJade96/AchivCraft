@@ -1,4 +1,4 @@
-import { redirect, useLoaderData } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import { Text } from "../components/Text";
 import { Card } from "../components/Card";
 
@@ -35,8 +35,5 @@ export const loader = async () => {
       credentials: "include",
     }
   );
-  if (!characterResponse.ok) {
-    return redirect("/login");
-  }
   return characterResponse;
 };

@@ -6,7 +6,6 @@ import { createClient } from "../databaseClient";
 const router = express.Router();
 
 router.get("/achievement", async function (req, res) {
-	console.log("🚀 ~ req:", req.cookies);
 	const supabase = createClient({ req, res });
 	const {
 		data: { user },
@@ -63,7 +62,6 @@ router.get("/achievement", async function (req, res) {
 			)`
 			)
 			.lte("updated_at", formattedDate); //more than 5 mins ago
-	console.log("🚀 ~ getOldAchievementsData:", getOldAchievementsData);
 	if (getOldAchievementsError) {
 		console.log("🚀 ~ getOldAchievementsError:", getOldAchievementsError);
 		return res.sendStatus(400);

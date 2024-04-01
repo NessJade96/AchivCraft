@@ -1,7 +1,7 @@
 import { Text } from "../components/Text";
 import { Button } from "../components/Button";
 import { Link } from "../components/Link";
-import { Form, Outlet } from "react-router-dom";
+import { Form, Outlet, redirect } from "react-router-dom";
 
 export function AuthLayout() {
   return (
@@ -21,12 +21,6 @@ export function AuthLayout() {
           </ul>
         </nav>
         <div className="p-6 ml-auto flex gap-2">
-          <Link variant="text" to="/login">
-            Log in
-          </Link>
-          <Link variant="button" to="/signup">
-            Sign up
-          </Link>
           <Form method="POST" action="/logout">
             <Button>Logout</Button>
           </Form>
@@ -38,3 +32,14 @@ export function AuthLayout() {
     </>
   );
 }
+
+export const loader = async () => {
+  const isLoggedIn = await fetch(`${import.meta.env.VITE_API_URL}/user`, {
+    credentials: "include",
+  });
+
+  if (!isLoggedIn.ok) {
+    return redirect("/login");
+  }
+  return isLoggedIn;
+};

@@ -12,7 +12,7 @@ import { router as searchRouter } from "./src/routers/search";
 import { router as signupRouter } from "./src/routers/signup";
 import { router as unfollowRouter } from "./src/routers/unfollow";
 import { router as healthRouter } from "./src/routers/health";
-
+import { router as userRouter } from "./src/routers/user";
 
 app.use(cookieParser());
 app.use(
@@ -32,10 +32,11 @@ app.use("/api/logout", logoutRouter);
 app.use("/api/search", searchRouter);
 app.use("/api/signup", signupRouter);
 app.use("/api/unfollow", unfollowRouter);
+app.use("/api/user", userRouter);
 
 app.get("*", (req, res) => {
-    res.send("Error 404 Invalid Endpoint");
-})
+	res.send("Error 404 Invalid Endpoint");
+});
 
 app.use(function (err, req, res) {
 	console.error(err);
@@ -45,5 +46,3 @@ app.use(function (err, req, res) {
 app.listen(process.env.PORT, () => {
 	console.log(`Listening on http://localhost:${process.env.PORT}`);
 });
-
-

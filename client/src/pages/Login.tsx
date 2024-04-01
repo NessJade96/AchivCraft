@@ -61,7 +61,9 @@ export async function action({ request }: ActionFunctionArgs) {
       password,
     }),
   });
+  console.log("🚀 ~ action ~ loginResponse:", loginResponse);
   if (loginResponse.ok) {
+    console.log("heelo");
     return redirect("/");
   }
   return loginResponse;
