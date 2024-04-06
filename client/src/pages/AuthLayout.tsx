@@ -2,9 +2,11 @@ import { Text } from "../components/Text";
 import { Button } from "../components/Button";
 import { Link } from "../components/Link";
 import { Form, Outlet, redirect, useNavigation } from "react-router-dom";
+import { useState } from "react";
 
 export function AuthLayout() {
   const navigation = useNavigation();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const buttonText =
     navigation.state === "submitting"
@@ -18,7 +20,13 @@ export function AuthLayout() {
         <Text className="text-2xl font-semibold text-purple-800 text-center px-6">
           AchivCraft
         </Text>
-        <nav>
+        <Button
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="ml-auto px-4 sm:hidden"
+        >
+          Menu
+        </Button>
+        <nav className="gap-2 hidden sm:flex">
           <ul className="flex">
             <li>
               <Link to="/">Home</Link>
@@ -28,13 +36,32 @@ export function AuthLayout() {
             </li>
           </ul>
         </nav>
-        <div className="p-6 ml-auto flex gap-2">
+        <div className="p-6 ml-auto hidden gap-2 sm:flex">
           <Form method="POST" action="/logout">
             <Button>{buttonText}</Button>
           </Form>
         </div>
       </div>
-      <main className="max-w-2xl mx-auto">
+      {isMenuOpen ? (
+        <div className="bg-gray-100 border-r shadow-lg w-1/2 h-full absolute top-0 left-0">
+          <nav className="gap-2 flex">
+            <ul className="flex">
+              <li>
+                <Link to="/">Home</Link>
+              </li>
+              <li>
+                <Link to="/search">Search</Link>
+              </li>
+            </ul>
+          </nav>
+          <div className="p-6 ml-auto  gap-2 flex">
+            <Form method="POST" action="/logout">
+              <Button>{buttonText}</Button>
+            </Form>
+          </div>
+        </div>
+      ) : null}
+      <main className="max-w-2xl mx-auto ">
         <Outlet></Outlet>
       </main>
     </>

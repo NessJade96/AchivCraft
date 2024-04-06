@@ -23,7 +23,7 @@ export function Login() {
       : "Login";
   return (
     <>
-      <div className="pt-40">
+      <div className="pt-10 sm:pt-40">
         <Text tag="h1">Log in to your account</Text>
       </div>
       <div className="py-8">
