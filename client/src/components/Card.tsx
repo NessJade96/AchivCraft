@@ -32,12 +32,12 @@ export function Card({
   const realm =
     characterRealm.charAt(0).toUpperCase() + characterRealm.slice(1);
   return (
-    <div className="bg-purple-50 border border-purple-300 rounded-lg py-2 px-4 flex items-center gap-8 w-full">
+    <div className="bg-purple-50 border border-purple-300 rounded-lg py-2 px-4 flex items-center gap-2 sm:gap-8 w-full">
       <div className="min-w-16">{logos[characterFaction]}</div>
       <div className="">
-        <div className="flex gap-2">
+        <div className="sm:flex gap-2">
           <Text className="text-xl font-medium">{characterName}</Text>
-          <Text className="text-gray-500 text-xl">{realm}</Text>
+          <Text className="text-gray-500 text-lg sm:text-xl">{realm}</Text>
         </div>
         <Text className="text-gray-500">
           {characterRace} {characterClass}

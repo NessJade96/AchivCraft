@@ -58,7 +58,7 @@ export function Login() {
         </div>
       </Form>
       <p className="text-center py-6 text-gray-500">
-        Don't have an account? <Link to="/signup">Sign up</Link>
+        Don't have an account?<Link to="/signup">Sign up</Link>
       </p>
     </>
   );

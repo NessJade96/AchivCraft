@@ -20,7 +20,6 @@ export function Search() {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const navigation = useNavigation();
-  console.log("🚀 ~ Search ~ navigation:", navigation);
 
   const searchButtonText =
     navigation.state === "submitting"
@@ -46,7 +45,7 @@ export function Search() {
 
   return (
     <>
-      <div className="pt-40">
+      <div className="p-6 py-8 sm:pt-20">
         <Text tag="h1">Search characters</Text>
       </div>
       <div className="py-8">
@@ -77,8 +76,8 @@ export function Search() {
             key={params.get("characterName") ?? ""}
           />
         </FormItem>
-        <div className="flex items-center">
-          <Text className="text-gray-500">Not sure what to search? Try:</Text>
+        <div className="sm:flex items-center">
+          <Text className="text-gray-500 p-3">Not sure what to search? Try:</Text>
           <Link to="/search?realmSlug=frostmourne&characterName=astraxi&intent=search">
             Astraxi
           </Link>

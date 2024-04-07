@@ -9,7 +9,7 @@ type LinkProps = ReactRouterLinkProps & {
 
 const variants = {
   button:
-    "bg-purple-600 rounded-lg py-2 px-3 text-white font-medium min-w-28 text-center",
+    "bg-purple-600 rounded-lg py-0.5 sm:py-2 px-3 text-white font-medium min-w-20 sm:min-w-28 text-center",
   text: " rounded-lg py-2 text-black font-medium px-3 ",
 };
 

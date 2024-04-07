@@ -6,17 +6,19 @@ import { useState } from "react";
 
 export function AuthLayout() {
   const navigation = useNavigation();
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const buttonText =
     navigation.state === "submitting"
       ? "Logging out..."
-      : navigation.state === "loading"
+      : navigation.state === "loading" &&
+        navigation.location?.pathname === "/search"
       ? "Logging out..."
       : "Logout";
   return (
     <>
-      <div className="border flex items-center">
+      <div className="border flex items-center p-4 sm:p-6">
         <Text className="text-2xl font-semibold text-purple-800 text-center px-6">
           AchivCraft
         </Text>
@@ -27,7 +29,7 @@ export function AuthLayout() {
           Menu
         </Button>
         <nav className="gap-2 hidden sm:flex">
-          <ul className="flex">
+          <ul className="flex ">
             <li>
               <Link to="/">Home</Link>
             </li>
@@ -36,32 +38,46 @@ export function AuthLayout() {
             </li>
           </ul>
         </nav>
-        <div className="p-6 ml-auto hidden gap-2 sm:flex">
+        <div className="ml-auto hidden gap-2 sm:flex">
           <Form method="POST" action="/logout">
             <Button>{buttonText}</Button>
           </Form>
         </div>
       </div>
       {isMenuOpen ? (
-        <div className="bg-gray-100 border-r shadow-lg w-1/2 h-full absolute top-0 left-0">
-          <nav className="gap-2 flex">
-            <ul className="flex">
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/search">Search</Link>
-              </li>
-            </ul>
-          </nav>
-          <div className="p-6 ml-auto  gap-2 flex">
-            <Form method="POST" action="/logout">
-              <Button>{buttonText}</Button>
-            </Form>
+        <div
+          className="bg-black bg-opacity-30 sm:hidden fixed h-full w-full top-0 left-0"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          <div className="bg-gray-100 border-r shadow-lg w-3/4 max-w-[240px] top-0 rounded-r left-0 flex flex-col h-full">
+            <Text className="text-2xl font-semibold text-purple-800 text-center p-6">
+              AchivCraft
+            </Text>
+            <nav className="gap-2 flex">
+              <ul className="flex flex-col">
+                <li className="px-2 py-3">
+                  <Link to="/">Home</Link>
+                </li>
+                <li className="px-2 py-3">
+                  <Link to="/search">Search</Link>
+                </li>
+              </ul>
+            </nav>
+            <div className="p-4 mt-auto gap-2 flex">
+              <Form method="POST" action="/logout">
+                <Button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                >
+                  {buttonText}
+                </Button>
+              </Form>
+            </div>
           </div>
         </div>
       ) : null}
-      <main className="max-w-2xl mx-auto ">
+      <main className="sm:max-w-2xl mx-auto px-3">
         <Outlet></Outlet>
       </main>
     </>

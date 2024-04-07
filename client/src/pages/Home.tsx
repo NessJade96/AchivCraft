@@ -4,10 +4,9 @@ import { Card } from "../components/Card";
 
 export function Home() {
   const data: any = useLoaderData();
-  console.log("🚀 ~ Home ~ data:", data);
   return (
     <>
-      <div className="p-6">
+      <div className="p-6 py-8 sm:pt-20">
         <Text tag="h1">Recent Achievements</Text>
       </div>
       <div className="flex flex-col gap-4 ">

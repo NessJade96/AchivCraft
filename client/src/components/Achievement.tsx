@@ -19,7 +19,7 @@ export function Achievement({
     .replace(/\//g, "-");
   return (
     <div>
-      <Text className="text-xl font-medium text-purple-800 py-4">
+      <Text className="text-xl font-medium text-purple-800 sm:py-4">
         {achievementName}
       </Text>
       <Text className="text-gray-500 self-center">{formattedDate}</Text>
