@@ -36,11 +36,15 @@ React, Typescript, Node.js, Express.js, Tailwind, Vite, JWT, react-dom, react-ro
 
 ### Home:
 
-![Unstyled Home Page](./client/src/assets/HomePage.png)
+![Home Page](./client/src/assets/HomePage.png)
 
 ### Search:
 
 ![Search Page](./client/src/assets/SearchPage.png)
+
+### Mobile Side Menu:
+
+![Mobile Menu](./client/src/assets/MobileSideMenu.png)
 
 ## Planning Notes & Process
 
@@ -122,12 +126,10 @@ Added:
 - funcationality to save character acheivements to the db
 - error handling for queries to check if the user is logged in
 - Then render characters achievements to the home page / timeline (updates Achievements from Blizzard API every 5 mins if refreshed)
-- design ideas (figma)
+- responsive design ideas (figma)
 
 ### Future development
 
-- Responsive styling
-- Loading spinner
 - Uplift typescript types
 - redeploy to vercel as render is slow...
 
